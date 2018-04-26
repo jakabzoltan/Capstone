@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace Mohawk.Jakab.Capstone.Web
+namespace Mohawk.Jakab.Quizzard.Web
 {
     public class FilterConfig
     {

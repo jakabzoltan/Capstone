@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mohawk.Jakab.Capstone.Web", "Mohawk.Jakab.Capstone.Web\Mohawk.Jakab.Capstone.Web.csproj", "{DB525781-F53F-445E-B2DB-8022C4E5722E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mohawk.Jakab.Quizzard.Services", "Mohawk.Jakab.Services\Mohawk.Jakab.Quizzard.Services.csproj", "{4D072AC4-D4AD-4615-B8A2-60E0174CBADF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mohawk.Jakab.Quizzard.Domain", "Mohawk.Jakab.Domain\Mohawk.Jakab.Quizzard.Domain.csproj", "{D46904B1-77AA-4332-9606-E9EC2BD84247}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mohawk.Jakab.Quizzard.Web", "Mohawk.Jakab.Quizzard.Web\Mohawk.Jakab.Quizzard.Web.csproj", "{0F645F11-2AD3-4051-971D-123B85B75E79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DB525781-F53F-445E-B2DB-8022C4E5722E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB525781-F53F-445E-B2DB-8022C4E5722E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB525781-F53F-445E-B2DB-8022C4E5722E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB525781-F53F-445E-B2DB-8022C4E5722E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D072AC4-D4AD-4615-B8A2-60E0174CBADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D072AC4-D4AD-4615-B8A2-60E0174CBADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D072AC4-D4AD-4615-B8A2-60E0174CBADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D072AC4-D4AD-4615-B8A2-60E0174CBADF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D46904B1-77AA-4332-9606-E9EC2BD84247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D46904B1-77AA-4332-9606-E9EC2BD84247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D46904B1-77AA-4332-9606-E9EC2BD84247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D46904B1-77AA-4332-9606-E9EC2BD84247}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F645F11-2AD3-4051-971D-123B85B75E79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F645F11-2AD3-4051-971D-123B85B75E79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F645F11-2AD3-4051-971D-123B85B75E79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F645F11-2AD3-4051-971D-123B85B75E79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,16 +1,14 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Mohawk.Jakab.Capstone.Web.Models;
+using Mohawk.Jakab.Quizzard.Domain.Entities;
+using Mohawk.Jakab.Quizzard.Web.Models;
 
-namespace Mohawk.Jakab.Capstone.Web.Controllers
+namespace Mohawk.Jakab.Quizzard.Web.Controllers
 {
     [Authorize]
     public class AccountController : Controller
@@ -30,26 +28,14 @@ namespace Mohawk.Jakab.Capstone.Web.Controllers
 
         public ApplicationSignInManager SignInManager
         {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set 
-            { 
-                _signInManager = value; 
-            }
+            get => _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            private set => _signInManager = value;
         }
 
         public ApplicationUserManager UserManager
         {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
+            get => _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            private set => _userManager = value;
         }
 
         //
@@ -151,8 +137,8 @@ namespace Mohawk.Jakab.Capstone.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var user = new QuizzardUser { UserName = model.Email, Email = model.Email, SecurityQuestion = model.SecurityQuestion};
+                var result = await UserManager.CreateAsync(user, model.Password, model.SecurityAnswer);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
@@ -202,26 +188,35 @@ namespace Mohawk.Jakab.Capstone.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
+
                 }
-
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                return RedirectToAction("SecurityQuestion", user);
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
+        [HttpGet]
+        public ActionResult SecurityQuestion(QuizzardUser user)
+        {
+            return View(new SecurityQuestionViewModel() {User = user});
+        }
+        [HttpPost]
+        public async Task<ActionResult> ConfirmSecurityQuestion(SecurityQuestionViewModel model)
+        {
+            if (UserManager.VerifySecurityQuestion(model.User, model.SecurityAnswer))
+            {
+                string code = await UserManager.GeneratePasswordResetTokenAsync(model.User.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = model.User.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(model.User.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+            }
+            return RedirectToAction("SecurityQuestion", model.User);
+        }
 
-        //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
@@ -367,7 +362,7 @@ namespace Mohawk.Jakab.Capstone.Web.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new QuizzardUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

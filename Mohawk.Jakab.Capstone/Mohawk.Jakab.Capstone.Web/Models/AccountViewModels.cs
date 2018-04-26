@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Mohawk.Jakab.Quizzard.Domain.Entities;
 
-namespace Mohawk.Jakab.Capstone.Web.Models
+namespace Mohawk.Jakab.Quizzard.Web.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
@@ -65,6 +66,21 @@ namespace Mohawk.Jakab.Capstone.Web.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Security Question")]
+        public string SecurityQuestion { get; set; }
+
+        [Required]
+        [Display(Name = "Security Answer")]
+        [DataType(DataType.Password)]
+        public string SecurityAnswer { get; set; }
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -79,6 +95,8 @@ namespace Mohawk.Jakab.Capstone.Web.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+
     }
 
     public class ResetPasswordViewModel
@@ -109,4 +127,11 @@ namespace Mohawk.Jakab.Capstone.Web.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class SecurityQuestionViewModel
+    {
+        public QuizzardUser User { get; set; }
+        public string SecurityAnswer { get; set; }
+    }
+
 }

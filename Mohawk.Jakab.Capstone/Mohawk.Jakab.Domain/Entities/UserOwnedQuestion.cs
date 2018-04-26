@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Mohawk.Jakab.Quizzard.Domain.Entities
+{
+    public class UserOwnedQuestion
+    {
+        public Guid Id { get; set; }
+        public string QuizzardUserId { get; set; }
+        public string QuestionText { get; set; }
+
+        //navigation properties
+        public virtual QuizzardUser QuizzardUser { get; set; }
+        public virtual IEnumerable<Quiz> Quizzes { get; set; }
+        public virtual IEnumerable<UserOwnedAnswer> UserOwnedAnswers { get; set; }
+    }
+}

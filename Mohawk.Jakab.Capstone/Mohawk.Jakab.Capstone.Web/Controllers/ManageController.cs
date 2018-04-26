@@ -1,14 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Mohawk.Jakab.Capstone.Web.Models;
+using Mohawk.Jakab.Quizzard.Web.Models;
 
-namespace Mohawk.Jakab.Capstone.Web.Controllers
+namespace Mohawk.Jakab.Quizzard.Web.Controllers
 {
     [Authorize]
     public class ManageController : Controller

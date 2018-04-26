@@ -1,9 +1,12 @@
 ﻿using Microsoft.Owin;
+using Mohawk.Jakab.Quizzard.Web;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(Mohawk.Jakab.Capstone.Web.Startup))]
-namespace Mohawk.Jakab.Capstone.Web
+
+[assembly: OwinStartup(typeof(Startup), "Capstone")]
+namespace Mohawk.Jakab.Quizzard.Web
 {
+
     public partial class Startup
     {
         public void Configuration(IAppBuilder app)
