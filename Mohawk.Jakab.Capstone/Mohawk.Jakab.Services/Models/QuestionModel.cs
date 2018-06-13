@@ -16,18 +16,19 @@ namespace Mohawk.Jakab.Quizzard.Services.Models
         public int QuestionTypeId { get; set; }
         public string QuestionText { get; set; }
 
+        public bool UserOwned { get; set; }
 
         public IEnumerable<AnswerModel> Answers { get; set; }
-        public static Expression<Func<Question,QuestionModel>> BuildModel()
+
+        public static Expression<Func<Question, QuestionModel>> BuildModel => x => new QuestionModel()
         {
-            return x => new QuestionModel()
-            {
-                Id = x.Id,
-                QuizId = x.QuizId,
-                QuestionText = x.QuestionText,
-                QuestionTypeId = x.QuestionTypeId,
-                Answers = x.QuestionAnswers.Select(AnswerModel.BuildModel().Invoke)
-            };
-        }
+            Id = x.Id,
+            QuizId = x.QuizId,
+            QuestionText = x.QuestionText,
+            QuestionTypeId = x.QuestionTypeId,
+            UserOwned = false,
+            Answers = x.QuestionAnswers.AsQueryable().Select(AnswerModel.BuildModel)
+        };
+
     }
 }

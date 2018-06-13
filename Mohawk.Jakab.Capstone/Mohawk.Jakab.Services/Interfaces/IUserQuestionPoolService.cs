@@ -10,6 +10,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Interfaces
         Task<IEnumerable<UserOwnedQuestionModel>> GetUserOwnedQuestions(string userId);
         Task<UserOwnedQuestionModel> AddUserOwnedQuestion(UserOwnedQuestionModel model);
         Task<UserOwnedQuestionModel> EditUserOwnedQuestion(UserOwnedQuestionModel model);
+        Task<UserOwnedQuestionModel> GetUserOwnedQuestion(Guid id);
         Task<bool> RemoveUserOwnedQuestion(Guid questionId);
 
     }

@@ -162,6 +162,7 @@
     <Compile Include="Interfaces\IUserQuestionPoolService.cs" />
     <Compile Include="Models\AnswerModel.cs" />
     <Compile Include="Models\QuestionModel.cs" />
+    <Compile Include="Models\QuestionSet.cs" />
     <Compile Include="Models\QuizModel.cs" />
     <Compile Include="Models\QuizResultsModel.cs" />
     <Compile Include="Models\QuizSubmissionModel.cs" />

@@ -13,7 +13,7 @@ namespace Mohawk.Jakab.Quizzard.Domain.Entities
 
         //navigation properties
         public virtual QuestionType QuestionType { get; set; }
-        public virtual IEnumerable<QuestionAnswer> QuestionAnswers { get; set; }
+        public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
         
     }
 }

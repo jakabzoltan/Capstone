@@ -11,16 +11,23 @@ namespace Mohawk.Jakab.Quizzard.Services.Models
         public Guid QuestionId { get; set; }
         public string AnswerText { get; set; }
         public bool IsCorrect { get; set; }
+        public bool UserOwned { get; set; }
 
-        public static Expression<Func<QuestionAnswer, AnswerModel>> BuildModel()
+        public static Expression<Func<QuestionAnswer, AnswerModel>> BuildModel => x => new AnswerModel
         {
-            return x => new AnswerModel
-            {
-                Id = x.Id,
-                AnswerText = x.AnswerText,
-                IsCorrect = x.IsCorrect,
-                QuestionId = x.QuestionId
-            };
-        }
+            Id = x.Id,
+            AnswerText = x.AnswerText,
+            IsCorrect = x.IsCorrect,
+            QuestionId = x.QuestionId,
+            UserOwned = false
+        };
+        public static Expression<Func<UserOwnedAnswer, AnswerModel>> BuildUserOwnedModel => x => new AnswerModel
+        {
+            Id = x.Id,
+            AnswerText = x.AnswerText,
+            IsCorrect = x.IsCorrect,
+            QuestionId = x.UserOwnedQuestionId,
+            UserOwned = true
+        };
     }
 }

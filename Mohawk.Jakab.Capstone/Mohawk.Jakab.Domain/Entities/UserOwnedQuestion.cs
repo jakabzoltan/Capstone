@@ -8,10 +8,12 @@ namespace Mohawk.Jakab.Quizzard.Domain.Entities
         public Guid Id { get; set; }
         public string QuizzardUserId { get; set; }
         public string QuestionText { get; set; }
+        public int QuestionTypeId { get; set; }
 
         //navigation properties
         public virtual QuizzardUser QuizzardUser { get; set; }
         public virtual IEnumerable<Quiz> Quizzes { get; set; }
         public virtual IEnumerable<UserOwnedAnswer> UserOwnedAnswers { get; set; }
+        public virtual QuestionType QuestionType { get; set; }
     }
 }

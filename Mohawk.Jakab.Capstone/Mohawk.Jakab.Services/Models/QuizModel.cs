@@ -33,7 +33,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Models
                 ArchivedOn = x.ArchivedOn,
                 Description = x.Description,
                 QuizzardUserId = x.QuizzardUserId,
-                Questions = includeQuestions ? x.Questions.Select(QuestionModel.BuildModel().Invoke) : new List<QuestionModel>()
+                Questions = x.Questions.AsQueryable().Select(QuestionModel.BuildModel)
             };
         }
     }
