@@ -7,8 +7,10 @@ namespace Mohawk.Jakab.Quizzard.Services.Interfaces
 {
     public interface IQuizPlayService
     {
-        Task<QuizResultsModel> PlayQuiz(string userId, QuizSubmissionModel model);
-        Task<QuizResultsModel> PlayQuizAnonymously(QuizSubmissionModel model);
+        Task PlayQuiz(string userId, QuizSubmissionModel model);
+        Task PlayQuizAnonymously(QuizSubmissionModel model);
         Task<QuizResultsModel> GetQuizStatistics(Guid quizId);
+
+        Task<QuizResultsModel> GetQuizResults(Guid submissionId);
     }
 }
