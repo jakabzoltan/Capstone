@@ -125,3 +125,5 @@ C:\Users\jakabz\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Quizzard.W
 C:\Users\jakabz\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Quizzard.Web\bin\Autofac.Integration.Mvc.dll
 C:\Users\jakabz\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Quizzard.Web\bin\Autofac.xml
 C:\Users\jakabz\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Quizzard.Web\bin\Autofac.Integration.Mvc.xml
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Quizzard.Web\obj\Debug\Mohawk.Jakab.Quizzard.Web.csprojAssemblyReference.cache
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Quizzard.Web\obj\Debug\Mohawk.Jakab.Quizzard.Web.csproj.CoreCompileInputs.cache

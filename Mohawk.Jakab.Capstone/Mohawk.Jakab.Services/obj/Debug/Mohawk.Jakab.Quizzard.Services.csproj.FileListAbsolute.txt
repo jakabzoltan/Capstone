@@ -58,3 +58,5 @@ C:\Users\jakabz\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Services\o
 C:\Users\jakabz\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Services\obj\Debug\Mohawk.Jakab.Quizzard.Services.csproj.CopyComplete
 C:\Users\jakabz\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Services\obj\Debug\Mohawk.Jakab.Quizzard.Services.dll
 C:\Users\jakabz\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Services\obj\Debug\Mohawk.Jakab.Quizzard.Services.pdb
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Services\obj\Debug\Mohawk.Jakab.Quizzard.Services.csprojAssemblyReference.cache
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Services\obj\Debug\Mohawk.Jakab.Quizzard.Services.csproj.CoreCompileInputs.cache
