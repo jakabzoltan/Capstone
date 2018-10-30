@@ -1,0 +1,51 @@
+﻿@using Mohawk.Jakab.Quizzard.Services.Models
+@model QuizModel
+@{
+    ViewBag.Title = "Create Quiz";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h3>Create a Quiz</h3>
+    </div>
+</div>
+
+@using (Html.BeginForm("SaveQuiz", "Quiz", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.HiddenFor(x=>x.Id)
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div>@Html.LabelFor(x => x.Title, new { @class = "control-label" })</div>
+            <div>@Html.TextBoxFor(x => x.Title, new { @class = "form-control" })</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div>@Html.LabelFor(x => x.Description, new { @class = "control-label" })</div>
+            <div>@Html.TextBoxFor(x => x.Title, new { @class = "form-control" })</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div>@Html.LabelFor(x => x.SkillLevel, new { @class = "control-label" })</div>
+            <div>@Html.TextBoxFor(x => x.SkillLevel, new { @class = "form-control" })</div>
+            <div><small>A rough measurement of general knowledge recommended to play the quiz (i.e Grade 1, Grade 12)</small></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="inline">@Html.CheckBoxFor(m => m.Private, new { @class = "form-control form-control-checkbox" })</div>
+            <div class="inline">@Html.LabelFor(m => m.Private, new { @class = "checkbox-text" })</div>
+            <div><small>Psst... Private means only logged in users may play your quiz!</small></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 text-right">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </div>
+}
+

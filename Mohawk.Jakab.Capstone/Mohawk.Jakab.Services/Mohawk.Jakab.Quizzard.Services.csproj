@@ -93,8 +93,8 @@
       <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
@@ -155,6 +155,7 @@
     <Compile Include="Handlers\QuizPlayService.cs" />
     <Compile Include="Handlers\QuizReactionService.cs" />
     <Compile Include="Handlers\UserQuestionPoolService.cs" />
+    <Compile Include="Handlers\UserService.cs" />
     <Compile Include="Interfaces\IQuizPlayService.cs" />
     <Compile Include="Handlers\QuizService.cs" />
     <Compile Include="Interfaces\IQuizReactionService.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Models\AnswerModel.cs" />
     <Compile Include="Models\QuestionModel.cs" />
     <Compile Include="Models\QuestionSet.cs" />
+    <Compile Include="Models\QuestionTypeModel.cs" />
     <Compile Include="Models\QuizModel.cs" />
     <Compile Include="Models\QuizResultsModel.cs" />
     <Compile Include="Models\QuizSubmissionAnswerModel.cs" />

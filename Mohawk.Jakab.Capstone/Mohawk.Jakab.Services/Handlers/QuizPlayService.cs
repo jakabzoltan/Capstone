@@ -27,7 +27,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
             {
                 try
                 {
-                    var quizSubmissionId = Guid.NewGuid();
+                    var quizSubmissionId = Guid.NewGuid().ToString();
                     _context.QuizSubmissions.Add(new QuizSubmission()
                     {
                         Id = quizSubmissionId,
@@ -35,8 +35,8 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                         SubmittedOn = DateTime.Now,
                         Answers = new List<QuizSubmissionAnswer>(model.Answers.Select(x => new QuizSubmissionAnswer()
                         {
-                            Id = Guid.NewGuid(),
-                            UserOwnedQuestionId = x.UserOwnedQuestionId,
+                            Id = Guid.NewGuid().ToString(),
+                            UserOwnedQuestionId = x.Question.UserOwned ? x.Id : "",
                             QuestionId = x.QuestionId,
                             SubmissionId = quizSubmissionId,
                             UserAnswer = x.UserAnswer

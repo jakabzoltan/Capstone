@@ -10,8 +10,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Models
             QuizQuestions = new List<QuestionModel>();
         }
 
-        public Guid QuizId { get; set; }
-        public List<QuestionModel> QuizQuestions { get; set; }
-
+        public string QuizId { get; set; }
+        public IEnumerable<QuestionModel> QuizQuestions { get; set; }
     }
 }

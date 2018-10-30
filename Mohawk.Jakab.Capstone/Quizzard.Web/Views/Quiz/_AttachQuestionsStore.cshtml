@@ -1,0 +1,34 @@
+﻿@model Mohawk.Jakab.Quizzard.Services.Models.QuestionSet
+
+@foreach (var question in Model.QuizQuestions)
+{
+    <div class="row question-card">
+        <div class="col-md-8 col-md-offset-2">
+            <h4>@question.QuestionText</h4>
+            <p>@question.QuestionTypeId</p>
+            <div class="pull-right">
+                @using (Ajax.BeginForm("AttachQuestion",new {quizId = Model.QuizId, questionId = question.Id}, new AjaxOptions()))
+                {
+                    <button type="submit" class="btn-add btn btn-success">Add</button>
+                }
+            </div>
+            
+            <div>
+                @foreach (var answer in question.Answers)
+                {
+                    var answerIndicator = "label-default";
+                    if (answer.IsCorrect)
+                    {
+                        answerIndicator = "label-success";
+                    }
+                    <label class="label @answerIndicator">@answer.AnswerText</label>
+                }
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(".btn-add").click(function() {
+        this.remove();
+    })
+</script>

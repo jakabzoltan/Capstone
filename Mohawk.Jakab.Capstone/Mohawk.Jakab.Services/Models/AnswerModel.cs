@@ -7,8 +7,8 @@ namespace Mohawk.Jakab.Quizzard.Services.Models
 {
     public class AnswerModel
     {
-        public Guid Id { get; set; }
-        public Guid QuestionId { get; set; }
+        public string Id { get; set; }
+        public string QuestionId { get; set; }
         public string AnswerText { get; set; }
         public bool IsCorrect { get; set; }
         public bool UserOwned { get; set; }

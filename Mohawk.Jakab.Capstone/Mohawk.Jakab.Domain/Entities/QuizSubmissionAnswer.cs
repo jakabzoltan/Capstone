@@ -4,11 +4,11 @@ namespace Mohawk.Jakab.Quizzard.Domain.Entities
 {
     public class QuizSubmissionAnswer
     {
-        public Guid Id { get; set; }
-        public Guid SubmissionId { get; set; }
+        public string Id { get; set; }
+        public string SubmissionId { get; set; }
         //one or the other
-        public Guid? QuestionId { get; set; }
-        public Guid? UserOwnedQuestionId { get; set; }
+        public string QuestionId { get; set; }
+        public string UserOwnedQuestionId { get; set; }
 
         public string UserAnswer { get; set; }
 

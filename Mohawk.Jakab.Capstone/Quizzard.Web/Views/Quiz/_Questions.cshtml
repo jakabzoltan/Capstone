@@ -1,0 +1,35 @@
+﻿@using Mohawk.Jakab.Quizzard.Domain.Entities
+@model List<Mohawk.Jakab.Quizzard.Services.Models.QuestionModel>
+@if (Model.Any())
+{
+    foreach (var question in Model)
+    {
+        <div class="row question-card">
+            <div class="col-md-8 col-md-offset-2">
+                <h4>@question.QuestionText</h4>
+                <p>@question.QuestionTypeId</p>
+                <div>
+                    @foreach (var answer in question.Answers)
+                    {
+                        var answerIndicator = "label-default";
+                        if (answer.IsCorrect)
+                        {
+                            answerIndicator = "label-success";
+                        }
+
+                        <label class="label @answerIndicator">@answer.AnswerText</label>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 s-padding text-center">
+            <h3>No questions in this quiz!</h3>
+            <p>Use the <b>Actions</b> dropdown to add one</p>
+        </div>
+    </div>
+}

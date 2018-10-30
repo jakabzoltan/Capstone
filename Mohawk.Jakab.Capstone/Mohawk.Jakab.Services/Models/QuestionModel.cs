@@ -10,10 +10,10 @@ namespace Mohawk.Jakab.Quizzard.Services.Models
 {
     public class QuestionModel 
     {
-        public Guid Id { get; set; }
-        public Guid QuizId { get; set; }
+        public string Id { get; set; }
+        public string QuizId { get; set; }
 
-        public int QuestionTypeId { get; set; }
+        public string QuestionTypeId { get; set; }
         public string QuestionText { get; set; }
 
         public bool UserOwned { get; set; }

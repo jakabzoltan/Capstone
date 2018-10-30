@@ -1,0 +1,90 @@
+﻿@using Quizzard.Web.App_Data
+@model Quizzard.Web.Models.Home.SearchResults
+@{
+    ViewBag.Title = "Home";
+    var totalResults = Model.PrivateQuizzes.Count + Model.PublicQuizzes.Count;
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2>Hello @User.GetName()</h2>
+        </div>
+
+
+        @if (!User.IsVerified())
+        {
+            <div class="col-md-12 text-right"><a href="@Url.Action("Create","Quiz")" class="btn btn-primary">Create a Quiz!</a></div>
+
+            <div data-dismiss="alert" class="alert-bottom-right alert alert-warning alert-dismissible" aria-label="close">
+
+                <strong>Warning!</strong> Your account has not yet been verified!
+                <br />
+                Please click the link we sent to your e-mail in order to verify your account.
+                <br />
+                <div class="width-100 text-right">
+                    <small>Click me to close me!</small>
+                </div>
+            </div>
+        }
+    </div>
+}
+<div class="row">
+    <hr />
+    @if (Model.PrivateQuizzes.Count <= 0 && Model.PublicQuizzes.Count <= 0)
+    {
+
+        <div class="col-xs-12 no-horizontal-padding text-right">
+            <small>Found @totalResults Quizzes matching search criteria.</small>
+        </div>
+        <div class="col-xs-12 text-center">
+            <div class="s-padding">
+                <h2>No quizzes found!</h2>
+                <p>Perhaps try searching with different keywords?</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-xs-12">
+            <small></small>Found @totalResults Quizzes matching search criteria.
+        </div>
+        if (Model.PrivateQuizzes.Count > 0)
+        {
+            foreach (var privateQuiz in Model.PrivateQuizzes)
+            {
+                <div class="col-md-3 col-sm-2 quiz-card">
+                    <div class="quiz-card-tag">
+                        <span class="glyphicon glyphicon-eye-close"></span> Private
+                    </div>
+                    <h3>@privateQuiz.Title</h3>
+                    <small>@privateQuiz.SkillLevel</small>
+                    <p>@privateQuiz.Description</p>
+
+                    <a href="@Url.Action("Play", "Quiz", new {Area = "", id = privateQuiz.Id.ToString()})" class="btn btn-success quiz-card-button width-100">Play <span class="glyphicon glyphicon-play"></span></a>
+                </div>
+            }
+        }
+        if (Model.PublicQuizzes.Count > 0)
+        {
+            foreach (var publicQuiz in Model.PrivateQuizzes)
+            {
+                <div class="col-md-3 col-sm-2 quiz-card">
+                    <h3>@publicQuiz.Title</h3>
+                    <small>@publicQuiz.SkillLevel</small>
+                    <p>@publicQuiz.Description</p>
+
+                    <a href="@Url.Action("Play", "Quiz", new {Area = "", id = publicQuiz.Id.ToString()})" class="btn btn-success quiz-card-button width-100">Play <span class="glyphicon glyphicon-play"></span></a>
+                </div>
+            }
+        }
+
+
+
+    }
+</div>
+
+
+
+

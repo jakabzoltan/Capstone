@@ -1,0 +1,50 @@
+﻿* {
+    border-radius: 0px;
+}
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+
+.quiz-card {
+    height: 200px;
+    padding: 5px;
+    border: 1px solid;
+    box-shadow: 1px 1px 1px gray;
+    margin-top: 25px;
+}
+
+.quiz-card-tag {
+    width: auto;
+    margin-top: -25px;
+    height: 25px;
+}
+
+.quiz-card-button {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+}
+
+.quiz-card > p {
+    overflow-x: auto;
+}
+
+.width-100 {
+    width: 100%;
+}

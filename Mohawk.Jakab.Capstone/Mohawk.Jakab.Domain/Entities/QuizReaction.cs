@@ -7,7 +7,7 @@ namespace Mohawk.Jakab.Quizzard.Domain.Entities
     {
         public int Id { get; set; }
         public int ReactionTypeId { get; set; }
-        public Guid QuizId { get; set; }
+        public string QuizId { get; set; }
         public string QuizzardUserId { get; set; }
 
         //navigation properties

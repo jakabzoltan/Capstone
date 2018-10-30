@@ -1,0 +1,45 @@
+﻿@model Mohawk.Jakab.Quizzard.Services.Models.QuizModel
+
+@{
+                /**/
+
+                ViewBag.Title = Model.Title;
+                Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h3>@Model.Title</h3>
+
+        <div class="pull-right">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    Actions <span class="glyphicon glyphicon-chevron-down"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("ToggleDraftMode", new{id = Model.Id})">Enter Draft Mode</a></li>
+                    <li><a href="@Url.Action("ArchiveQuiz", new{id = Model.Id})"></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <p>@Model.Description</p>
+        <p>Skill Level: @Model.SkillLevel</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 text-right">
+        <h4>Questions</h4>
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-md-12 text-right">
+        <small>Question Count: @Model.Questions.Count()</small>
+    </div>
+</div>
+<div id="questions">
+    @{ Html.RenderPartial("_Questions", Model.Questions.ToList());}
+</div>

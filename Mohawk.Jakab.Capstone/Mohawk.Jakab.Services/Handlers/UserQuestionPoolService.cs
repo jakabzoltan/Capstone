@@ -33,7 +33,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
             {
                 try
                 {
-                    var id = Guid.NewGuid();
+                    var id = Guid.NewGuid().ToString();
                     _context.UserOwnedQuestions.Add(new UserOwnedQuestion()
                     {
                         Id = id,
@@ -42,7 +42,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                         QuestionTypeId = model.QuestionTypeId,
                         UserOwnedAnswers = new List<UserOwnedAnswer>(model.Answers.Select(x => new UserOwnedAnswer()
                         {
-                            Id = Guid.NewGuid(),
+                            Id = Guid.NewGuid().ToString(),
                             AnswerText = x.AnswerText,
                             IsCorrect = x.IsCorrect,
                             UserOwnedQuestionId = id
@@ -91,14 +91,14 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<UserOwnedQuestionModel> GetUserOwnedQuestion(Guid id)
+        public async Task<UserOwnedQuestionModel> GetUserOwnedQuestion(string id)
         {
            return await _context.UserOwnedQuestions.Where(x => x.Id == id)
                 .Select(UserOwnedQuestionModel.BuildModel)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<bool> RemoveUserOwnedQuestion(Guid id)
+        public async Task<bool> RemoveUserOwnedQuestion(string id)
         {
             var question = await _context.UserOwnedQuestions.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (question != null) _context.UserOwnedQuestions.Remove(question);

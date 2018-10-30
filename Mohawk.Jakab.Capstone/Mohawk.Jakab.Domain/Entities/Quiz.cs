@@ -5,12 +5,13 @@ namespace Mohawk.Jakab.Quizzard.Domain.Entities
 {
     public class Quiz
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string QuizzardUserId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string SkillLevel { get; set; }
         public bool Private { get; set; }
+        public bool DraftMode { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? ArchivedOn { get; set; }
 

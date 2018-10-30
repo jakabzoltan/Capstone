@@ -1,0 +1,81 @@
+﻿@model Quizzard.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+<div class="s-padding">
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <h3>Create a new account.</h3>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div>@Html.LabelFor(m => m.Username, new { @class = "control-label" })</div>
+
+                <div>
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div>@Html.LabelFor(m => m.Email, new { @class = "control-label" })</div>
+
+                <div>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div>@Html.LabelFor(m => m.Password, new { @class = "control-label" })</div>
+                <div>
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div> @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })</div>
+                <div>
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div>@Html.LabelFor(m => m.SecurityQuestion, new { @class = "control-label" })</div>
+
+                <div>
+                    @Html.TextBoxFor(m => m.SecurityQuestion, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div>@Html.LabelFor(m => m.SecurityAnswer, new { @class = "control-label" })</div>
+
+                <div>
+                    @Html.TextBoxFor(m => m.SecurityAnswer, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row pad-top-15">
+            <div class="col-md-6 col-md-offset-3 text-right">
+                <input type="submit" class="btn btn-primary" value="Register" />
+            </div>
+        </div>
+        <div class="row s-padding">
+            <div class="col-md-6 col-md-offset-3 text-center">
+                <h3>Already have an account?</h3>
+                <p><a href="@Url.Action("Login","Account")">Click here to sign in!</a></p>
+            </div>
+        </div>
+    }
+</div>

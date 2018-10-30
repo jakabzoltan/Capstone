@@ -10,9 +10,9 @@ namespace Mohawk.Jakab.Quizzard.Domain.Entities
         {
             Answers = new List<QuizSubmissionAnswer>();
         }
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string QuizzardUserId { get; set; }
-        public Guid QuizId { get; set; }
+        public string QuizId { get; set; }
         public DateTime SubmittedOn { get; set; }
 
 

@@ -1,0 +1,63 @@
+﻿@using Quizzard.Web.Models
+@model Quizzard.Web.Models.LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<div class="s-padding">
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <h3>Log in</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div>
+                    @Html.LabelFor(m => m.Username, new { @class = "control-label" })
+                </div>
+                <div>
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div>@Html.LabelFor(m => m.Password, new { @class = "control-label" })</div>
+                <div>
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    <small class="pull-right"><a href="@Url.Action("ForgotPassword")">Forgot Password?</a></small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="inline">@Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-control form-control-checkbox" })</div>
+                <div class="inline">@Html.LabelFor(m => m.RememberMe, new { @class = "checkbox-text" })</div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 text-right">
+                <input type="submit" value="Log in" class="btn btn-primary" />
+            </div>
+        </div>
+        @* Enable this once you have account confirmation enabled for password reset functionality
+            <p>
+                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+            </p>*@
+    }
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 text-center">
+        <h3>Not Registered?</h3>
+        <h4><a href="@Url.Action("Register")">Click here to register today!</a></h4>
+        <small>(P.S. - It's totally free)</small>
+    </div>
+</div>

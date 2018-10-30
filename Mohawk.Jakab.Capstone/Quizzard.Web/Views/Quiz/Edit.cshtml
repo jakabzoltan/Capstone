@@ -1,0 +1,126 @@
+﻿@model Mohawk.Jakab.Quizzard.Services.Models.QuizModel
+
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="alert alert-bottom alert-warning text-center">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <b>This quiz is in Draft Mode.</b>
+            <br/>
+            No one can view it but you until you save your changes and exit draft mode!
+        </div>
+    </div>
+
+</div>
+
+
+
+<hr />
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 text-center">
+        <h3>Edit Quiz</h3>
+
+        <div class="pull-right">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    Actions <span class="glyphicon glyphicon-chevron-down"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("ToggleDraftMode", new {id = Model.Id})">Enter Draft Mode</a></li>
+                    <li><a>Archive Quiz</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("SaveQuiz", "Quiz", FormMethod.Post, new { @class = "form-horizontal", id = "main-draft-form" }))
+{
+    @Html.HiddenFor(x => x.Id)
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div>@Html.LabelFor(x => x.Title, new { @class = "control-label" })</div>
+            <div>@Html.TextBoxFor(x => x.Title, new { @class = "form-control" })</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div>@Html.LabelFor(x => x.Description, new { @class = "control-label" })</div>
+            <div>@Html.TextBoxFor(x => x.Title, new { @class = "form-control" })</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div>@Html.LabelFor(x => x.SkillLevel, new { @class = "control-label" })</div>
+            <div>@Html.TextBoxFor(x => x.SkillLevel, new { @class = "form-control" })</div>
+            <div><small>A rough measurement of general knowledge recommended to play the quiz (i.e Grade 1, Grade 12)</small></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="inline">@Html.CheckBoxFor(m => m.Private, new { @class = "form-control form-control-checkbox" })</div>
+            <div class="inline">@Html.LabelFor(m => m.Private, new { @class = "checkbox-text" })</div>
+            <div><small>Psst... Private means only logged in users may play your quiz!</small></div>
+        </div>
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 text-right">
+        <h4>Questions</h4>
+    </div>
+    <div class="pull-right">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                Actions <span class="glyphicon glyphicon-chevron-down"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li>Add Question</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12 text-right">
+        <small>Question Count: @Model.Questions.Count()</small>
+    </div>
+</div>
+<div id="questions">
+    @{ Html.RenderPartial("_DraftQuestions", Model.Questions.ToList());}
+</div>
+
+<div>
+    <div id="add-question-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog" id="add-question-modal-content">
+
+           
+
+            <!-- Modal content-->
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function refreshQuestions() {
+        $.ajax({
+            url: '@Url.Action("RefreshQuizQuestions", new {id = Model.Id})',
+            success: function(data) {
+                $("#questions").html(data);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+    });
+</script>

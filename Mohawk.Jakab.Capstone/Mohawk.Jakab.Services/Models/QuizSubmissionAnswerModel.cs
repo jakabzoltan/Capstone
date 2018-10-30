@@ -4,13 +4,23 @@ namespace Mohawk.Jakab.Quizzard.Services.Models
 {
     public class QuizSubmissionAnswerModel
     {
-        public Guid Id { get; set; }
-        public Guid SubmissionId { get; set; }
-        //one or the other
-        public Guid? QuestionId { get; set; }
-        public Guid? UserOwnedQuestionId { get; set; }
-
+        public string Id { get; set; }
+        public string SubmissionId { get; set; }
+        public string QuestionId { get; set; }
+        public QuestionModel Question { get; set; }
         public string UserAnswer { get; set; }
+
+        public QuizSubmissionAnswerModel(string submissionId)
+        {
+            Id = Guid.NewGuid().ToString();
+            SubmissionId = submissionId;
+        }
+
+        public QuizSubmissionAnswerModel(string submissionId, QuestionModel model) : this(submissionId)
+        {   
+            Question = model;
+            QuestionId = model.Id;
+        }
 
     }
 }

@@ -1,0 +1,26 @@
+﻿@model Quizzard.Web.Models.SecurityQuestionViewModel
+
+@{
+    ViewBag.Title = "Security Question";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("VerifySecurityQuestion", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.HiddenFor(x=>x.UserId)
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h3>Answer Security Question</h3>
+            <hr />
+            <div>@Model.SecurityQuestion</div>
+            @Html.TextBoxFor(x => x.SecurityAnswer, new { @class = "form-control", type = "password" })
+
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 text-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+}

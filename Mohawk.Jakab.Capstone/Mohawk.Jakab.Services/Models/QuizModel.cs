@@ -10,31 +10,33 @@ namespace Mohawk.Jakab.Quizzard.Services.Models
 {
     public class QuizModel
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string QuizzardUserId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string SkillLevel { get; set; }
         public bool Private { get; set; }
+        public bool DraftMode { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? ArchivedOn { get; set; }
+        public string CreatorName { get; set; }
 
         public IEnumerable<QuestionModel> Questions { get; set; }
 
-        public static Expression<Func<Quiz, QuizModel>> BuildModel(bool includeQuestions)
+        public static Expression<Func<Quiz, QuizModel>> BuildModel => x => new QuizModel()
         {
-            return x => new QuizModel()
-            {
-                Id = x.Id,
-                Title = x.Title,
-                SkillLevel = x.SkillLevel,
-                CreatedOn = x.CreatedOn,
-                Private = x.Private,
-                ArchivedOn = x.ArchivedOn,
-                Description = x.Description,
-                QuizzardUserId = x.QuizzardUserId,
-                Questions = x.Questions.AsQueryable().Select(QuestionModel.BuildModel)
-            };
-        }
+            Id = x.Id,
+            Title = x.Title,
+            SkillLevel = x.SkillLevel,
+            CreatedOn = x.CreatedOn,
+            Private = x.Private,
+            ArchivedOn = x.ArchivedOn,
+            Description = x.Description,
+            DraftMode = x.DraftMode,
+            QuizzardUserId = x.QuizzardUserId,
+            CreatorName = x.QuizzardUser.FirstName + " " + x.QuizzardUser.LastName,
+            Questions = x.Questions.AsQueryable().Select(QuestionModel.BuildModel)
+        };
+        
     }
 }

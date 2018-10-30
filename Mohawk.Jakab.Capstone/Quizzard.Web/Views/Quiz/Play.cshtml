@@ -1,0 +1,23 @@
+﻿@using Quizzard.Web.Models
+@model Quizzard.Web.Models.Play
+
+@{
+    ViewBag.Title = Model.Quiz.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h3>@Model.Quiz.Title</h3>
+    <p>@Model.Quiz.Description - @Model.Quiz.SkillLevel</p>
+</div>
+<hr />
+
+@using (Html.BeginForm("Play", "Quiz", FormMethod.Post, new { @class = "form-inline" })){
+    @Html.HiddenFor(x => x.Id)
+    foreach (var partial in Model.QuestionPartials)
+    {
+        partial.View.Render(ViewContext, Output);
+    }
+
+
+}

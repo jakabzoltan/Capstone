@@ -10,10 +10,11 @@ namespace Mohawk.Jakab.Quizzard.Services.Models
         {
             Answers = new List<QuizSubmissionAnswerModel>();
         }
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string QuizzardUserId { get; set; }
-        public Guid QuizId { get; set; }
+        public string QuizId { get; set; }
         public DateTime SubmittedOn { get; set; }
-        public ICollection<QuizSubmissionAnswerModel> Answers { get; set; }
+        public QuizModel Quiz { get; set; }
+        public List<QuizSubmissionAnswerModel> Answers { get; set; }
     }
 }

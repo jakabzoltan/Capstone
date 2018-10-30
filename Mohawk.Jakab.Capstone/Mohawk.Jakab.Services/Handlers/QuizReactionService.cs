@@ -15,7 +15,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
             _context = QuizzardContext.Create();
         }
 
-        public async Task<bool> LikeOrUnlikeQuiz(Guid quizId, string userId)
+        public async Task<bool> LikeOrUnlikeQuiz(string quizId, string userId)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {

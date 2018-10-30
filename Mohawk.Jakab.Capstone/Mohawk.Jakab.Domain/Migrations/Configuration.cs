@@ -11,7 +11,7 @@ namespace Mohawk.Jakab.Quizzard.Domain.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Mohawk.Jakab.Quizzard.Domain.QuizzardContext context)

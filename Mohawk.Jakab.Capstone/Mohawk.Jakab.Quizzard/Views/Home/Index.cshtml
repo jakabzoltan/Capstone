@@ -1,0 +1,38 @@
+﻿@model Mohawk.Jakab.Quizzard.Models.Home.SearchResults
+@{
+    ViewBag.Title = "Home - Quizzard";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <h2>Welcome @User.Identity.Name</h2>
+}
+<div class="row">
+    @if (Model.PrivateQuizzes.Count > 0)
+    {
+        foreach (var privateQuiz in Model.PrivateQuizzes)
+        {
+            <div class="col-md-3 col-sm-2 quiz-card">
+                <div class="quiz-card-tag"><span class="glyphicon glyphicon-eye-close"></span> Private</div>
+                <h3>@privateQuiz.Title</h3>
+                <p>@privateQuiz.Description</p>
+
+                <a href="@Url.Action("Play", "Quiz", new {Area="", id = privateQuiz.Id.ToString()})" class="btn btn-success quiz-card-button width-100">Play</a>
+            </div>
+        }
+    }
+    @if (Model.PublicQuizzes.Count > 0)
+    {
+        foreach (var publicQuiz in Model.PrivateQuizzes)
+        {
+            <div class="col-md-3 col-sm-2 quiz-card">
+                <h3>@publicQuiz.Title</h3>
+                <p>@publicQuiz.Description</p>
+
+                <a href="@Url.Action("Play", "Quiz", new {Area="", id = publicQuiz.Id.ToString()})" class="btn btn-success quiz-card-button width-100">Play <span class="glyphicon glyphicon-play"></span></a>
+            </div>
+        }
+    }
+
+
+</div>
+

@@ -1,0 +1,13 @@
+﻿@model Quizzard.Web.Models.Home.SearchTerm
+
+@using (Html.BeginForm("Search", "Home", FormMethod.Post,new{@class="form-horizontal"}))
+{ 
+    <div class="input-group">
+        @Html.TextBoxFor(m=>m.Term, new{ @class="form-control", placeholder ="Search..."})
+        <div class="input-group-btn">
+            <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+        </div>
+    </div>
+
+
+}
