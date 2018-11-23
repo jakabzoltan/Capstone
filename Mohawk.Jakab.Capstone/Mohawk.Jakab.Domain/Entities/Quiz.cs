@@ -17,8 +17,8 @@ namespace Mohawk.Jakab.Quizzard.Domain.Entities
 
         //navigation properties
         public virtual QuizzardUser QuizzardUser { get; set; }
-        public virtual ICollection<Question> Questions { get; set; }
-        public virtual ICollection<UserOwnedQuestion> UserAttachedQuestions { get; set; }
-        public virtual ICollection<QuizReaction> QuizReactions { get; set; }
+        public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
+        public virtual ICollection<UserOwnedQuestion> UserAttachedQuestions { get; set; } = new List<UserOwnedQuestion>();
+        public virtual ICollection<QuizReaction> QuizReactions { get; set; } = new List<QuizReaction>();
     }
 }

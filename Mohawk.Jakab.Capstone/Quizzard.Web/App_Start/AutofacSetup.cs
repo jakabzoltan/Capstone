@@ -1,9 +1,10 @@
 ﻿using System.Web.Mvc;
+using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using Mohawk.Jakab.Quizzard.Domain;
 using Mohawk.Jakab.Quizzard.Services.Handlers;
 using Mohawk.Jakab.Quizzard.Services.Interfaces;
-using Quizzard.Web.App_Data;
 using Quizzard.Web.Areas.Questions;
 using Quizzard.Web.Areas.Questions.Controllers;
 
@@ -29,9 +30,15 @@ namespace Quizzard.Web
             builder.RegisterType<QuizReactionService>().As<IQuizReactionService>();
             builder.RegisterType<QuizService>().As<IQuizService>();
             builder.RegisterType<UserQuestionPoolService>().As<IUserQuestionPoolService>();
+
             builder.RegisterType<UserService>().AsSelf();
 
+            builder.RegisterType<SessionStateTempDataProvider>().As<ITempDataProvider> ();
+            //builder.RegisterType<RouteCollection>().As(RouteTable.Routes);
 
+            //builder.RegisterModule<AutofacWebTypesModule>();
+
+            
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();

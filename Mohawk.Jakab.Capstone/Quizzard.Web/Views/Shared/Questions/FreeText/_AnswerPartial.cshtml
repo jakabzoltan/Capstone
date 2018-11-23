@@ -1,0 +1,30 @@
+﻿@model Mohawk.Jakab.Quizzard.Services.Models.AnswerModel
+
+@using (Html.BeginCollectionItem("Answers"))
+{
+    <div class="row" class="">
+        <div class="col-xs-9">
+
+            <div>@Html.TextBoxFor(x => x.AnswerText, new { @class = "form-control" })</div>
+        </div>
+        <div class="col-xs-2 text-right">
+
+            <div>
+                <div class="input-group">
+                    @Html.TextBoxFor(x => x.Correctness, new { @class = "form-control text-right" })
+                    <span class="input-group-addon">%</span>
+                </div>
+                
+            </div>
+        </div>
+        <div class="col-xs-1 text-center">
+            <a href="#" id="delete-question-answer" class="btn btn-default delete-question-answer" tabindex="-1"><span class="glyphicon glyphicon-trash"></span></a>
+        </div>
+
+    </div>
+    <script>
+        $(".delete-question-answer").click(function() {
+            $(this).parent().parent().remove();
+        })
+    </script>
+}

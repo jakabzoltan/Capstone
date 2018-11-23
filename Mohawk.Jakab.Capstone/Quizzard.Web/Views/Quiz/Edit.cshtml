@@ -1,42 +1,46 @@
 ﻿@model Mohawk.Jakab.Quizzard.Services.Models.QuizModel
-
+@using Quizzard.Web.Util
 @{
-    ViewBag.Title = Model.Title;
-    Layout = "~/Views/Shared/_Layout.cshtml";
+                /**/
+
+
+
+                ViewBag.Title = Model.Title;
+                Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="alert alert-bottom alert-warning text-center">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <b>This quiz is in Draft Mode.</b>
-            <br/>
-            No one can view it but you until you save your changes and exit draft mode!
+            <br />
+            No one can view it except you, until you save your changes and exit draft mode!
         </div>
     </div>
 
 </div>
 
 
+@using (Html.BeginForm("SaveQuiz", "Quiz", FormMethod.Post, new { @class = "form-horizontal", id = "main-draft-form" }))
+{
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 left">
+            <h3 class="inline">Edit Quiz</h3>
 
-<hr />
-<div class="row">
-    <div class="col-md-8 col-md-offset-2 text-center">
-        <h3>Edit Quiz</h3>
-
-        <div class="pull-right">
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                    Actions <span class="glyphicon glyphicon-chevron-down"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="@Url.Action("ToggleDraftMode", new {id = Model.Id})">Enter Draft Mode</a></li>
-                    <li><a>Archive Quiz</a></li>
-                </ul>
+            <div class="pull-right inline header-margins">
+                <button type="submit" class="btn btn-success inline">Save & Exit Draft Mode</button>
+                <div class="dropdown inline">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        Actions <span class="glyphicon glyphicon-chevron-down"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a>Archive Quiz</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-</div>
-@using (Html.BeginForm("SaveQuiz", "Quiz", FormMethod.Post, new { @class = "form-horizontal", id = "main-draft-form" }))
-{
+
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.Id)
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -47,7 +51,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div>@Html.LabelFor(x => x.Description, new { @class = "control-label" })</div>
-            <div>@Html.TextBoxFor(x => x.Title, new { @class = "form-control" })</div>
+            <div>@Html.TextBoxFor(x => x.Description, new { @class = "form-control" })</div>
         </div>
     </div>
     <div class="row">
@@ -61,30 +65,41 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="inline">@Html.CheckBoxFor(m => m.Private, new { @class = "form-control form-control-checkbox" })</div>
             <div class="inline">@Html.LabelFor(m => m.Private, new { @class = "checkbox-text" })</div>
-            <div><small>Psst... Private means only logged in users may play your quiz!</small></div>
+            <div><small>Psst... Private means only <b>logged in users</b> may play your quiz!</small></div>
         </div>
     </div>
+    <br />
+
 }
 
 
 <div class="row">
-    <div class="col-md-8 col-md-offset-2 text-right">
-        <h4>Questions</h4>
-    </div>
-    <div class="pull-right">
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                Actions <span class="glyphicon glyphicon-chevron-down"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li>Add Question</li>
-            </ul>
+    <div class="col-md-8 col-md-offset-2 page-header">
+        <div class="row">
+            <div class="col-xs-6">
+                <h3>Questions</h3>
+            </div>
+            <div class="col-xs-6 text-right">
+                @if (Model.DraftMode)
+                {
+                    <div class="dropdown header-margins pull-right">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                            Actions <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="pointer" id="add-question-answer-button" data-toggle="modal" data-target="#add-question-modal">Add Question</a></li>
+                        </ul>
+                    </div>
+                }
+
+            </div>
         </div>
     </div>
+
 </div>
-<hr />
+
 <div class="row">
-    <div class="col-md-12 text-right">
+    <div class="col-md-8 col-md-offset-2 text-right">
         <small>Question Count: @Model.Questions.Count()</small>
     </div>
 </div>
@@ -92,28 +107,23 @@
     @{ Html.RenderPartial("_DraftQuestions", Model.Questions.ToList());}
 </div>
 
-<div>
-    <div id="add-question-modal" class="modal fade" role="dialog">
-        <div class="modal-dialog" id="add-question-modal-content">
 
-           
+<div id="add-question-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog" id="add-question-modal-content">
 
-            <!-- Modal content-->
-
-        </div>
     </div>
 </div>
+
 
 <script>
     function refreshQuestions() {
         $.ajax({
-            url: '@Url.Action("RefreshQuizQuestions", new {id = Model.Id})',
+            url: '@Url.Action("RefreshQuizQuestions", new { quizId = Model.Id})',
             success: function(data) {
                 $("#questions").html(data);
             }
         });
     }
-
     $(document).ready(function () {
         $(window).keydown(function(event){
             if(event.keyCode == 13) {
@@ -121,6 +131,21 @@
                 return false;
             }
         });
+        $("#submit-form").click(function() {
+            $("#main-draft-form").submit();
+        });
+        $("#add-question-answer-button").click(function () {
+
+            $.ajax({
+                url: "@Url.Action("ChooseQuestionStore", new { quizId = Model.Id })",
+                success: function(data) {
+                    $("#add-question-modal-content").html(data);
+                }
+            })
+        })
 
     });
+
+
+
 </script>

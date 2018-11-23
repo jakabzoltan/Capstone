@@ -1,4 +1,4 @@
-﻿namespace Quizzard.Web.App_Data
+﻿namespace Mohawk.Jakab.Quizzard.Domain
 {
     public static class Constants
     {

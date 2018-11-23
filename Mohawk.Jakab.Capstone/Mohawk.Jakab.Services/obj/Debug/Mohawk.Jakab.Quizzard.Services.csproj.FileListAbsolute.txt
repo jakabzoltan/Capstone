@@ -84,3 +84,5 @@ C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Services\ob
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Services\obj\Debug\Mohawk.Jakab.Quizzard.Services.pdb
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Services\bin\Debug\System.Diagnostics.DiagnosticSource.dll
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Services\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Services\bin\Debug\Autofac.dll
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Services\bin\Debug\Autofac.xml

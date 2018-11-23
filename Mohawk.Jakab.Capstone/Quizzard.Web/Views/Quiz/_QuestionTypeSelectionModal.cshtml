@@ -1,0 +1,56 @@
+﻿@using Quizzard.Web.Util
+@model string
+@{
+    var selected = "";
+    var selectList = new List<SelectListItem>()
+{
+new SelectListItem()
+{
+    Selected = true,
+    Value = "empty",
+    Text = "-- Select a question type --"
+}
+};
+
+    selectList.AddRange(QuestionUtil.ActiveQuestionTypes().Select(x => new SelectListItem()
+    {
+        Text = x.QuestionTypeText,
+        Value = x.Id,
+    }));
+
+
+
+
+}
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Add Question</h3>
+    </div>
+    <div class="modal-body" style="min-height: 250px;">
+        <div><h4>Question Type</h4></div>
+        <div>@Html.DropDownListFor(m => selected, selectList, new { @class = "form-control", id = "question-selection-dropdown" })</div>
+
+        <div id="question-form">
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#question-selection-dropdown").on('change', function () {
+        var questionType = $(this).val();
+        if (questionType !== "empty") {
+        $.get({
+            url: '@Url.Action("AddNewQuestion")',
+            data: {
+                quizId: '@Model',
+                questionType : questionType
+            },
+            success: function(data) {
+                $("#question-form").html(data);
+            }
+            });
+        }
+    })
+</script>

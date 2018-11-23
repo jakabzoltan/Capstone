@@ -1,0 +1,75 @@
+﻿@using Microsoft.Ajax.Utilities
+@model List<Mohawk.Jakab.Quizzard.Services.Models.QuizModel>
+
+@{
+    ViewBag.Title = "My Quizzes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>My Quizzes </h2>
+        <hr />
+    </div>
+</div>
+
+
+<div class="row">
+    
+
+    @foreach (var quiz in Model)
+    {
+        <div class="col-md-6 quiz-card">
+            <div class="row quiz-card-content">
+                <div class="col-xs-8">
+                    <h3>
+                        @quiz.Title
+                        @if (quiz.Private)
+                        {
+                            <span class="glyphicon glyphicon-eye-close"></span>
+                        }
+                    </h3>
+                    <small>@quiz.CreatedOn.ToString()</small>
+                    @if (quiz.Description.IsNullOrWhiteSpace())
+                    {
+                        <p>
+                            <small><i>No description available</i></small>
+
+                        </p>
+
+                    }
+                    else
+                    {
+                        <p><small>@quiz.Description</small></p>
+                    }
+
+                </div>
+                <div class="col-xs-4 text-right">
+                    <div class="header-margins">
+                        @if (quiz.DraftMode)
+                        {
+                            <p>
+                                <span class="glyphicon glyphicon-cog"></span>
+                                <span>In Draft Mode</span>
+                            </p>
+                        }
+                        else
+                        {
+                            <p>
+                                <span class="glyphicon glyphicon-saved"></span>
+                                <span>Live</span>
+                            </p>
+
+                        }
+                        <p><a href="@Url.Action("Details", "Quiz", new {id = quiz.Id})" class="btn btn-default">View</a></p>
+
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <small>Question Count: @quiz.Questions.Count()</small>
+                </div>
+                
+            </div>
+        </div>
+    }
+</div>

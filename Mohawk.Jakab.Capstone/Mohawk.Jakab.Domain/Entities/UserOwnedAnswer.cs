@@ -7,7 +7,7 @@ namespace Mohawk.Jakab.Quizzard.Domain.Entities
         public string Id { get; set; }
         public string UserOwnedQuestionId { get; set; }
         public string AnswerText { get; set; }
-        public bool IsCorrect { get; set; }
+        public int Correctness { get; set; }
 
         //navigation properties
         public virtual UserOwnedQuestion UserOwnedQuestion { get; set; }

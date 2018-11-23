@@ -161,14 +161,14 @@
         <member name="M:Autofac.Builder.IRegistrationBuilder`3.OwnedByLifetimeScope">
             <summary>
             Configure the component so that instances that support IDisposable are
-            disposed by the container (default.)
+            disposed by the container (default).
             </summary>
             <returns>A registration builder allowing further configuration of the component.</returns>
         </member>
         <member name="M:Autofac.Builder.IRegistrationBuilder`3.InstancePerDependency">
             <summary>
             Configure the component so that every dependent component or call to Resolve()
-            gets a new, unique instance (default.)
+            gets a new, unique instance (default).
             </summary>
             <returns>A registration builder allowing further configuration of the component.</returns>
         </member>
@@ -436,7 +436,7 @@
             <code>
             var cr = RegistrationBuilder.ForType(t).CreateRegistration();
             </code>
-            The full builder syntax is supported:
+            The full builder syntax is supported.
             <code>
             var cr = RegistrationBuilder.ForType(t).Named("foo").ExternallyOwned().CreateRegistration();
             </code>
@@ -475,8 +475,7 @@
         <member name="M:Autofac.Builder.RegistrationBuilder.CreateRegistration``3(Autofac.Builder.IRegistrationBuilder{``0,``1,``2})">
             <summary>
             Create an <see cref='T:Autofac.Core.IComponentRegistration'/> from a <see cref='T:Autofac.Builder.RegistrationBuilder'/>.
-            (There is no need to call
-            this method when registering components through a <see cref="T:Autofac.ContainerBuilder"/>.)
+            There is no need to call this method when registering components through a <see cref="T:Autofac.ContainerBuilder"/>.
             </summary>
             <remarks>
             When called on the result of one of the <see cref='T:Autofac.ContainerBuilder'/> methods,
@@ -572,14 +571,14 @@
         <member name="M:Autofac.Builder.RegistrationBuilder`3.OwnedByLifetimeScope">
             <summary>
             Configure the component so that instances that support IDisposable are
-            disposed by the container (default.)
+            disposed by the container (default).
             </summary>
             <returns>A registration builder allowing further configuration of the component.</returns>
         </member>
         <member name="M:Autofac.Builder.RegistrationBuilder`3.InstancePerDependency">
             <summary>
             Configure the component so that every dependent component or call to Resolve()
-            gets a new, unique instance (default.)
+            gets a new, unique instance (default).
             </summary>
             <returns>A registration builder allowing further configuration of the component.</returns>
         </member>
@@ -755,7 +754,7 @@
             Configure the component so that any properties whose types are registered in the
             container and follow specific criteria will be wired to instances of the appropriate service.
             </summary>
-            <param name="propertySelector">Selector to determine which properties should be injected</param>
+            <param name="propertySelector">Selector to determine which properties should be injected.</param>
             <param name="allowCircularDependencies">Determine if circular dependencies should be allowed or not.</param>
             <returns>A registration builder allowing further configuration of the component.</returns>
         </member>
@@ -788,7 +787,7 @@
         <member name="T:Autofac.Builder.RegistrationData">
             <summary>
             Data common to all registrations made in the container, both direct (IComponentRegistration)
-            and dynamic (IRegistrationSource.)
+            and dynamic (IRegistrationSource).
             </summary>
         </member>
         <member name="M:Autofac.Builder.RegistrationData.#ctor(Autofac.Core.Service)">
@@ -934,9 +933,9 @@
             Changes the parameter mapping mode of the supplied delegate type to match
             parameters by name.
             </summary>
-            <typeparam name="TDelegate">Factory delegate type</typeparam>
-            <typeparam name="TGeneratedFactoryActivatorData">Activator data type</typeparam>
-            <typeparam name="TSingleRegistrationStyle">Registration style</typeparam>
+            <typeparam name="TDelegate">Factory delegate type.</typeparam>
+            <typeparam name="TGeneratedFactoryActivatorData">Activator data type.</typeparam>
+            <typeparam name="TSingleRegistrationStyle">Registration style.</typeparam>
             <param name="registration">Registration to change parameter mapping mode of.</param>
             <returns>Registration builder allowing the registration to be configured.</returns>
             <exception cref="T:System.ArgumentNullException">
@@ -948,9 +947,9 @@
             Changes the parameter mapping mode of the supplied delegate type to match
             parameters by position.
             </summary>
-            <typeparam name="TDelegate">Factory delegate type</typeparam>
-            <typeparam name="TGeneratedFactoryActivatorData">Activator data type</typeparam>
-            <typeparam name="TSingleRegistrationStyle">Registration style</typeparam>
+            <typeparam name="TDelegate">Factory delegate type.</typeparam>
+            <typeparam name="TGeneratedFactoryActivatorData">Activator data type.</typeparam>
+            <typeparam name="TSingleRegistrationStyle">Registration style.</typeparam>
             <param name="registration">Registration to change parameter mapping mode of.</param>
             <returns>Registration builder allowing the registration to be configured.</returns>
             <exception cref="T:System.ArgumentNullException">
@@ -962,9 +961,9 @@
             Changes the parameter mapping mode of the supplied delegate type to match
             parameters by type.
             </summary>
-            <typeparam name="TDelegate">Factory delegate type</typeparam>
-            <typeparam name="TGeneratedFactoryActivatorData">Activator data type</typeparam>
-            <typeparam name="TSingleRegistrationStyle">Registration style</typeparam>
+            <typeparam name="TDelegate">Factory delegate type.</typeparam>
+            <typeparam name="TGeneratedFactoryActivatorData">Activator data type.</typeparam>
+            <typeparam name="TSingleRegistrationStyle">Registration style.</typeparam>
             <param name="registration">Registration to change parameter mapping mode of.</param>
             <returns>Registration builder allowing the registration to be configured.</returns>
             <exception cref="T:System.ArgumentNullException">
@@ -1255,22 +1254,22 @@
             Initializes a new instance of the <see cref="T:Autofac.Core.DefaultPropertySelector"/> class
             that provides default selection criteria.
             </summary>
-            <param name="preserveSetValues">Determines if values should be preserved or not</param>
+            <param name="preserveSetValues">Determines if values should be preserved or not.</param>
         </member>
         <member name="P:Autofac.Core.DefaultPropertySelector.PreserveSetValues">
             <summary>
             Gets or sets a value indicating whether the value should be set if the value is already
-            set (ie non-null)
+            set (ie non-null).
             </summary>
         </member>
         <member name="P:Autofac.Core.DefaultPropertySelector.OverwriteSetValueInstance">
             <summary>
-            Gets an instance of DefaultPropertySelector that will cause values to be overwritten
+            Gets an instance of DefaultPropertySelector that will cause values to be overwritten.
             </summary>
         </member>
         <member name="P:Autofac.Core.DefaultPropertySelector.PreserveSetValueInstance">
             <summary>
-            Gets an instance of DefaultPropertySelector that will preserve any values already set
+            Gets an instance of DefaultPropertySelector that will preserve any values already set.
             </summary>
         </member>
         <member name="M:Autofac.Core.DefaultPropertySelector.InjectProperty(System.Reflection.PropertyInfo,System.Object)">
@@ -1278,21 +1277,21 @@
             Provides default filtering to determine if property should be injected by rejecting
             non-public settable properties.
             </summary>
-            <param name="propertyInfo">Property to be injected</param>
-            <param name="instance">Instance that has the property to be injected</param>
-            <returns>Whether property should be injected</returns>
+            <param name="propertyInfo">Property to be injected.</param>
+            <param name="instance">Instance that has the property to be injected.</param>
+            <returns>Whether property should be injected.</returns>
         </member>
         <member name="T:Autofac.Core.DelegatePropertySelector">
             <summary>
-            Provides a property selector that applies a filter defined by a delegate
+            Provides a property selector that applies a filter defined by a delegate.
             </summary>
         </member>
         <member name="M:Autofac.Core.DelegatePropertySelector.#ctor(System.Func{System.Reflection.PropertyInfo,System.Object,System.Boolean})">
             <summary>
             Initializes a new instance of the <see cref="T:Autofac.Core.DelegatePropertySelector"/> class
-            that invokes a delegate to determine selection
+            that invokes a delegate to determine selection.
             </summary>
-            <param name="finder">Delegate to determine whether a property should be injected</param>
+            <param name="finder">Delegate to determine whether a property should be injected.</param>
         </member>
         <member name="T:Autofac.Core.Activators.Delegate.DelegateActivator">
             <summary>
@@ -1315,7 +1314,7 @@
             <returns>The activated instance.</returns>
             <remarks>
             The context parameter here should probably be ILifetimeScope in order to reveal Disposer,
-            but will wait until implementing a concrete use case to make the decision
+            but will wait until implementing a concrete use case to make the decision.
             </remarks>
         </member>
         <member name="T:Autofac.Core.Activators.Delegate.DelegateActivatorResources">
@@ -1381,7 +1380,7 @@
             <returns>The activated instance.</returns>
             <remarks>
             The context parameter here should probably be ILifetimeScope in order to reveal Disposer,
-            but will wait until implementing a concrete use case to make the decision
+            but will wait until implementing a concrete use case to make the decision.
             </remarks>
         </member>
         <member name="P:Autofac.Core.Activators.ProvidedInstance.ProvidedInstanceActivator.DisposeInstance">
@@ -1393,7 +1392,7 @@
         </member>
         <member name="M:Autofac.Core.Activators.ProvidedInstance.ProvidedInstanceActivator.Dispose(System.Boolean)">
             <summary>
-            Releases unmanaged and - optionally - managed resources
+            Releases unmanaged and - optionally - managed resources.
             </summary>
             <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         </member>
@@ -1760,7 +1759,7 @@
             <returns>The activated instance.</returns>
             <remarks>
             The context parameter here should probably be ILifetimeScope in order to reveal Disposer,
-            but will wait until implementing a concrete use case to make the decision
+            but will wait until implementing a concrete use case to make the decision.
             </remarks>
         </member>
         <member name="T:Autofac.Core.Activators.Reflection.ReflectionActivatorResources">
@@ -1796,11 +1795,11 @@
         </member>
         <member name="M:Autofac.Core.IPropertySelector.InjectProperty(System.Reflection.PropertyInfo,System.Object)">
             <summary>
-            Provides filtering to determine if property should be injected
+            Provides filtering to determine if property should be injected.
             </summary>
-            <param name="propertyInfo">Property to be injected</param>
-            <param name="instance">Instance that has the property to be injected</param>
-            <returns>Whether property should be injected</returns>
+            <param name="propertyInfo">Property to be injected.</param>
+            <param name="instance">Instance that has the property to be injected.</param>
+            <returns>Whether property should be injected.</returns>
         </member>
         <member name="T:Autofac.Core.AutoActivateService">
             <summary>
@@ -2014,7 +2013,7 @@
         </member>
         <member name="M:Autofac.Core.Container.Dispose(System.Boolean)">
             <summary>
-            Releases unmanaged and - optionally - managed resources
+            Releases unmanaged and - optionally - managed resources.
             </summary>
             <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         </member>
@@ -2124,7 +2123,7 @@
         </member>
         <member name="M:Autofac.Core.Disposer.Dispose(System.Boolean)">
             <summary>
-            Releases unmanaged and - optionally - managed resources
+            Releases unmanaged and - optionally - managed resources.
             </summary>
             <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         </member>
@@ -2375,7 +2374,7 @@
             registrations from another external registry.
             </summary>
             <remarks>This property is used when walking up the scope tree looking for
-            registrations for a new customised scope. (See issue 336.)</remarks>
+            registrations for a new customised scope.</remarks>
         </member>
         <member name="E:Autofac.Core.IComponentRegistry.RegistrationSourceAdded">
             <summary>
@@ -2409,7 +2408,7 @@
             <returns>The activated instance.</returns>
             <remarks>
             The context parameter here should probably be ILifetimeScope in order to reveal Disposer,
-            but will wait until implementing a concrete use case to make the decision
+            but will wait until implementing a concrete use case to make the decision.
             </remarks>
         </member>
         <member name="P:Autofac.Core.IInstanceActivator.LimitType">
@@ -2484,7 +2483,7 @@
         <member name="P:Autofac.Core.IRegistrationSource.IsAdapterForIndividualComponents">
             <summary>
             Gets a value indicating whether the registrations provided by this source are 1:1 adapters on top
-            of other components (I.e. like Meta, Func or Owned.)
+            of other components (e.g., Meta, Func, or Owned).
             </summary>
         </member>
         <member name="T:Autofac.Core.IServiceWithType">
@@ -2666,9 +2665,10 @@
             will be disposed along with it.
             </summary>
             <param name="configurationAction">Action on a <see cref="T:Autofac.ContainerBuilder"/>
-            that adds component registations visible only in the new scope.</param>
+            that adds component registrations visible only in the new scope.</param>
             <returns>A new lifetime scope.</returns>
             <example>
+            <code>
             IContainer cr = // ...
             using (var lifetime = cr.BeginLifetimeScope(builder =&gt; {
                     builder.RegisterType&lt;Foo&gt;();
@@ -2676,6 +2676,7 @@
             {
                 var foo = lifetime.Resolve&lt;Foo&gt;();
             }
+            </code>
             </example>
         </member>
         <member name="M:Autofac.Core.Lifetime.LifetimeScope.BeginLifetimeScope(System.Object,System.Action{Autofac.ContainerBuilder})">
@@ -2689,6 +2690,7 @@
             that adds component registrations visible only in the new scope.</param>
             <returns>A new lifetime scope.</returns>
             <example>
+            <code>
             IContainer cr = // ...
             using (var lifetime = cr.BeginLifetimeScope("unitOfWork", builder =&gt; {
                     builder.RegisterType&lt;Foo&gt;();
@@ -2696,6 +2698,7 @@
             {
                 var foo = lifetime.Resolve&lt;Foo&gt;();
             }
+            </code>
             </example>
         </member>
         <member name="M:Autofac.Core.Lifetime.LifetimeScope.CreateScopeRestrictedRegistry(System.Object,System.Action{Autofac.ContainerBuilder})">
@@ -2705,7 +2708,7 @@
             <param name="tag">The tag applied to the <see cref="T:Autofac.ILifetimeScope"/>.</param>
             <param name="configurationAction">Action on a <see cref="T:Autofac.ContainerBuilder"/>
             that adds component registrations visible only in the child scope.</param>
-            <returns>Registry to use for a child scope</returns>
+            <returns>Registry to use for a child scope.</returns>
             <remarks>It is the responsibility of the caller to make sure that the registry is properly
             disposed of. This is generally done by adding the registry to the <see cref="P:Autofac.Core.Lifetime.LifetimeScope.Disposer"/>
             property of the child scope.</remarks>
@@ -2761,7 +2764,7 @@
         </member>
         <member name="M:Autofac.Core.Lifetime.LifetimeScope.Dispose(System.Boolean)">
             <summary>
-            Releases unmanaged and - optionally - managed resources
+            Releases unmanaged and - optionally - managed resources.
             </summary>
             <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         </member>
@@ -3184,7 +3187,7 @@
         </member>
         <member name="M:Autofac.Core.Registration.ComponentRegistration.Dispose(System.Boolean)">
             <summary>
-            Releases unmanaged and - optionally - managed resources
+            Releases unmanaged and - optionally - managed resources.
             </summary>
             <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         </member>
@@ -3268,7 +3271,7 @@
         </member>
         <member name="M:Autofac.Core.Registration.ComponentRegistry.Dispose(System.Boolean)">
             <summary>
-            Releases unmanaged and - optionally - managed resources
+            Releases unmanaged and - optionally - managed resources.
             </summary>
             <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         </member>
@@ -3339,7 +3342,7 @@
             registrations from another external registry.
             </summary>
             <remarks>This property is used when walking up the scope tree looking for
-            registrations for a new customised scope. (See issue 336.)</remarks>
+            registrations for a new customised scope.</remarks>
         </member>
         <member name="E:Autofac.Core.Registration.ComponentRegistry.RegistrationSourceAdded">
             <summary>
@@ -3395,7 +3398,7 @@
         </member>
         <member name="T:Autofac.Core.Registration.ExternalRegistrySource.ExternalComponentRegistration">
             <summary>
-             ComponentRegistration subtyped only to distinguish it from other adapted registrations
+             ComponentRegistration subtyped only to distinguish it from other adapted registrations.
             </summary>
         </member>
         <member name="T:Autofac.Core.Registration.IModuleRegistrar">
@@ -3480,7 +3483,7 @@
         </member>
         <member name="F:Autofac.Core.Registration.ServiceRegistrationInfo._sourcesToQuery">
             <summary>
-            Used for bookkeeping so that the same source is not queried twice (may be null.)
+            Used for bookkeeping so that the same source is not queried twice (may be null).
             </summary>
         </member>
         <member name="M:Autofac.Core.Registration.ServiceRegistrationInfo.#ctor(Autofac.Core.Service)">
@@ -3580,7 +3583,7 @@
         </member>
         <member name="F:Autofac.Core.Resolving.CircularDependencyDetector.MaxResolveDepth">
             <summary>
-            Catch circular dependencies that are triggered by post-resolve processing (e.g. 'OnActivated')
+            Catch circular dependencies that are triggered by post-resolve processing (e.g. 'OnActivated').
             </summary>
         </member>
         <member name="T:Autofac.Core.Resolving.CircularDependencyDetectorResources">
@@ -3783,7 +3786,7 @@
             Initializes a new instance of the <see cref="T:Autofac.Core.Resolving.ResolveOperation"/> class.
             </summary>
             <param name="mostNestedLifetimeScope">The most nested scope in which to begin the operation. The operation
-            can move upward to less nested scopes as components with wider sharing scopes are activated</param>
+            can move upward to less nested scopes as components with wider sharing scopes are activated.</param>
         </member>
         <member name="M:Autofac.Core.Resolving.ResolveOperation.ResolveComponent(Autofac.Core.IComponentRegistration,System.Collections.Generic.IEnumerable{Autofac.Core.Parameter})">
             <summary>
@@ -4999,7 +5002,7 @@
         </member>
         <member name="M:Autofac.Features.OwnedInstances.Owned`1.Dispose(System.Boolean)">
             <summary>
-            Releases unmanaged and - optionally - managed resources
+            Releases unmanaged and - optionally - managed resources.
             </summary>
             <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         </member>
@@ -5068,7 +5071,7 @@
         <member name="P:Autofac.Features.ResolveAnything.AnyConcreteTypeNotAlreadyRegisteredSource.IsAdapterForIndividualComponents">
             <summary>
             Gets a value indicating whether the registrations provided by this source are 1:1 adapters on top
-            of other components (I.e. like Meta, Func or Owned.)
+            of other components (e.g., Meta, Func, or Owned).
             </summary>
         </member>
         <member name="P:Autofac.Features.ResolveAnything.AnyConcreteTypeNotAlreadyRegisteredSource.RegistrationConfiguration">
@@ -5087,7 +5090,6 @@
             <returns>
             A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
             </returns>
-            <filterpriority>2</filterpriority>
         </member>
         <member name="T:Autofac.Features.ResolveAnything.AnyConcreteTypeNotAlreadyRegisteredSourceExtensions">
             <summary>
@@ -5155,6 +5157,7 @@
              Enables contravariant <code>Resolve()</code> for interfaces that have a single contravariant ('in') parameter.
              </summary>
              <example>
+             <code>
              interface IHandler&lt;in TCommand&gt;
              {
                  void Handle(TCommand command);
@@ -5174,6 +5177,7 @@
              // actual registered type.
              var handler = container.Resolve&lt;IHandler&lt;DerivedCommand&gt;&gt;();
              handler.Handle(new DerivedCommand());
+             </code>
              </example>
         </member>
         <member name="M:Autofac.Features.Variance.ContravariantRegistrationSource.RegistrationsFor(Autofac.Core.Service,System.Func{Autofac.Core.Service,System.Collections.Generic.IEnumerable{Autofac.Core.IComponentRegistration}})">
@@ -5195,7 +5199,7 @@
         <member name="P:Autofac.Features.Variance.ContravariantRegistrationSource.IsAdapterForIndividualComponents">
             <summary>
             Gets a value indicating whether the registrations provided by this source are 1:1 adapters on top
-            of other components (I.e. like Meta, Func or Owned.)
+            of other components (e.g., Meta, Func, or Owned).
             </summary>
         </member>
         <member name="T:Autofac.IComponentContext">
@@ -5412,7 +5416,7 @@
                  }
              }
              </code>
-             Using the module:
+             Using the module...
              <code>
              var builder = new ContainerBuilder();
              builder.RegisterModule(new DataAccessModule { ConnectionString = "..." });
@@ -5628,14 +5632,18 @@
             <see cref="M:Autofac.ParameterExtensions.Named``1(System.Collections.Generic.IEnumerable{Autofac.Core.Parameter},System.String)"/>.
             </summary>
             <example>
-            Component with parameter:
+            <para>
+            Component with parameter...
+            </para>
             <code>
             public class MyComponent
             {
                 public MyComponent(int amount) { ... }
             }
             </code>
-            Providing the parameter:
+            <para>
+            Providing the parameter...
+            </para>
             <code>
             var builder = new ContainerBuilder();
             builder.RegisterType&lt;MyComponent&gt;();
@@ -5718,14 +5726,18 @@
             <see cref="M:Autofac.ParameterExtensions.Positional``1(System.Collections.Generic.IEnumerable{Autofac.Core.Parameter},System.Int32)"/>.
             </summary>
             <example>
-            Component with parameter:
+            <para>
+            Component with parameter...
+            </para>
             <code>
             public class MyComponent
             {
                 public MyComponent(int amount) { ... }
             }
             </code>
-            Providing the parameter:
+            <para>
+            Providing the parameter...
+            </para>
             <code>
             var builder = new ContainerBuilder();
             builder.RegisterType&lt;MyComponent&gt;();
@@ -6219,11 +6231,11 @@
         </member>
         <member name="M:Autofac.RegistrationExtensions.Targeting``3(Autofac.Builder.IRegistrationBuilder{``0,``1,``2},Autofac.Core.IComponentRegistration)">
             <summary>
-            Sets the target of the registration (used for metadata generation.)
+            Sets the target of the registration (used for metadata generation).
             </summary>
             <typeparam name="TLimit">The type of the limit.</typeparam>
             <typeparam name="TActivatorData">The type of the activator data.</typeparam>
-            <typeparam name="TSingleRegistrationStyle">Registration style</typeparam>
+            <typeparam name="TSingleRegistrationStyle">Registration style.</typeparam>
             <param name="registration">Registration to set target for.</param>
             <param name="target">The target.</param>
             <returns>
@@ -6629,7 +6641,7 @@
         <member name="M:Autofac.ResolutionExtensions.InjectProperties``1(Autofac.IComponentContext,``0,Autofac.Core.IPropertySelector)">
             <summary>
             Set any properties on <paramref name="instance"/> that can be resolved by service and that satisfy the
-            constraints imposed by <paramref name="propertySelector"/>
+            constraints imposed by <paramref name="propertySelector"/>.
             </summary>
             <typeparam name="TService">Type of instance. Used only to provide method chaining.</typeparam>
             <param name="context">The context from which to resolve the service.</param>
@@ -6640,7 +6652,7 @@
         <member name="M:Autofac.ResolutionExtensions.InjectProperties``1(Autofac.IComponentContext,``0,Autofac.Core.IPropertySelector,System.Collections.Generic.IEnumerable{Autofac.Core.Parameter})">
             <summary>
             Set any properties on <paramref name="instance"/> that can be resolved by service and that satisfy the
-            constraints imposed by <paramref name="propertySelector"/>
+            constraints imposed by <paramref name="propertySelector"/>.
             </summary>
             <typeparam name="TService">Type of instance. Used only to provide method chaining.</typeparam>
             <param name="context">The context from which to resolve the service.</param>
@@ -6652,7 +6664,7 @@
         <member name="M:Autofac.ResolutionExtensions.InjectProperties``1(Autofac.IComponentContext,``0,Autofac.Core.IPropertySelector,Autofac.Core.Parameter[])">
             <summary>
             Set any properties on <paramref name="instance"/> that can be resolved by service and that satisfy the
-            constraints imposed by <paramref name="propertySelector"/>
+            constraints imposed by <paramref name="propertySelector"/>.
             </summary>
             <typeparam name="TService">Type of instance. Used only to provide method chaining.</typeparam>
             <param name="context">The context from which to resolve the service.</param>
@@ -7328,14 +7340,18 @@
             <see cref="M:Autofac.ParameterExtensions.TypedAs``1(System.Collections.Generic.IEnumerable{Autofac.Core.Parameter})"/>.
             </summary>
             <example>
-            Component with parameter:
+            <para>
+            Component with parameter...
+            </para>
             <code>
             public class MyComponent
             {
                 public MyComponent(int amount) { ... }
             }
             </code>
-            Providing the parameter:
+            <para>
+            Providing the parameter...
+            </para>
             <code>
             var builder = new ContainerBuilder();
             builder.RegisterType&lt;MyComponent&gt;();
@@ -7359,11 +7375,11 @@
         <member name="M:Autofac.TypedParameter.From``1(``0)">
             <summary>
             Shortcut for creating <see cref="T:Autofac.TypedParameter"/>
-            by using the <typeparamref name="T"/>
+            by using the <typeparamref name="T"/>.
             </summary>
-            <typeparam name="T">type to be used for the parameter</typeparam>
+            <typeparam name="T">Type to be used for the parameter.</typeparam>
             <param name="value">The parameter value.</param>
-            <returns>new typed parameter</returns>
+            <returns>New typed parameter.</returns>
         </member>
         <member name="T:Autofac.TypeExtensions">
             <summary>
@@ -7466,13 +7482,13 @@
         </member>
         <member name="M:Autofac.Util.Disposable.Dispose(System.Boolean)">
             <summary>
-            Releases unmanaged and - optionally - managed resources
+            Releases unmanaged and - optionally - managed resources.
             </summary>
             <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         </member>
         <member name="P:Autofac.Util.Disposable.IsDisposed">
             <summary>
-            Gets a value indicating whether the current instance has been disposed; otherwise false;
+            Gets a value indicating whether the current instance has been disposed.
             </summary>
         </member>
         <member name="T:Autofac.Util.Enforce">

@@ -8,7 +8,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Interfaces
 {
     public interface IQuizService
     {
-        Task<IEnumerable<QuizModel>> SearchForQuizzes(params string[] query);
+        Task<IEnumerable<QuizModel>> SearchForQuizzes(bool privateQuizzes = false, params string[] query);
         Task<IEnumerable<QuizModel>> GetAllQuizzes(bool includePrivateQuizzes = false);
         Task<IEnumerable<QuizModel>> GetUserOwnedQuizzes(string userId);
         Task<QuizModel> GetQuiz(string id);
@@ -20,11 +20,15 @@ namespace Mohawk.Jakab.Quizzard.Services.Interfaces
         Task<AnswerModel> AddQuestionAnswer(string questionId, AnswerModel model);
         Task<bool> AttachUserQuestionToQuiz(string quizId, string userOwnedQuestionId);
         Task<bool> DetachUserQuestionFromQuiz(string quizId, string userOwnedQuestionId);
-        Task<QuestionModel> EditQuestion(string questionId, QuestionModel model);
+        Task<bool> EditQuestion(string questionId, QuestionModel model);
         Task<AnswerModel> EditAnswer(string answerId, AnswerModel model);
         Task<bool> RemoveQuestion(string questionId);
         Task<bool> RemoveAnswer(string answerId);
         Task<List<QuestionTypeModel>> GetQuestionTypes();
         bool ToggleDraftMode(string quizId);
+        Task<QuestionModel> GetQuestion(string id);
+        Task<List<QuizModel>> GetMyQuizzes(string userId);
+
+        bool QuestionExists(string id);
     }
 }

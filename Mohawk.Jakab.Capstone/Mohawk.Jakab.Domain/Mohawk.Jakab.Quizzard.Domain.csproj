@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.8.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.8.0\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -339,6 +339,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Entities\Question.cs" />
     <Compile Include="Entities\QuestionAnswer.cs" />
     <Compile Include="Entities\QuestionType.cs" />
@@ -350,9 +351,9 @@
     <Compile Include="Entities\ReactionType.cs" />
     <Compile Include="Entities\UserOwnedAnswer.cs" />
     <Compile Include="Entities\UserOwnedQuestion.cs" />
-    <Compile Include="Migrations\201804251412237_Initial.cs" />
-    <Compile Include="Migrations\201804251412237_Initial.Designer.cs">
-      <DependentUpon>201804251412237_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201811061716097_Initial.cs" />
+    <Compile Include="Migrations\201811061716097_Initial.Designer.cs">
+      <DependentUpon>201811061716097_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="QuizzardContext.cs" />
@@ -363,8 +364,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201804251412237_Initial.resx">
-      <DependentUpon>201804251412237_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811061716097_Initial.resx">
+      <DependentUpon>201811061716097_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

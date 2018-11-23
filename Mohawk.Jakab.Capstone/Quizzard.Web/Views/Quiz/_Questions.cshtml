@@ -4,20 +4,25 @@
 {
     foreach (var question in Model)
     {
-        <div class="row question-card">
-            <div class="col-md-8 col-md-offset-2">
-                <h4>@question.QuestionText</h4>
-                <p>@question.QuestionTypeId</p>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 question-card">
+                
+                <h4><small>@question.QuestionTypeId</small><br/>@question.QuestionText </h4>
+
                 <div>
                     @foreach (var answer in question.Answers)
                     {
                         var answerIndicator = "label-default";
-                        if (answer.IsCorrect)
+                        if (answer.Correctness > 50)
                         {
                             answerIndicator = "label-success";
                         }
+                        else if (answer.Correctness == 50)
+                        {
+                            answerIndicator = "label-warning";
+                        }
 
-                        <label class="label @answerIndicator">@answer.AnswerText</label>
+                        <label class="label @answerIndicator">(@answer.Correctness%) @answer.AnswerText</label>
                     }
                 </div>
             </div>

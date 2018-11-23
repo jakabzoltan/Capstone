@@ -10,10 +10,9 @@ namespace Mohawk.Jakab.Quizzard.Domain.Entities
         
         public string QuestionTypeId { get; set; }
         public string QuestionText { get; set; }
-
         //navigation properties
         public virtual QuestionType QuestionType { get; set; }
-        public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
+        public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; } = new List<QuestionAnswer>();
         
     }
 }

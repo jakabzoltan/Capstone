@@ -36,10 +36,10 @@ namespace Quizzard.Web
                 smpt.Credentials = credential;
                 smpt.Host = "smtp.gmail.com";
                 smpt.Port = 587;
-                smpt.EnableSsl = false;
-                smpt.SendMailAsync(mail);
+                smpt.EnableSsl = true;
+                smpt.Send(mail);
             }
-            return Task.FromResult(0);
+            return Task.CompletedTask;
         }
     }
 
@@ -66,7 +66,7 @@ namespace Quizzard.Web
         }
         public bool VerifySecurityQuestion(QuizzardUser user, string securityAnswer)
         {
-            return PasswordHasher.VerifyHashedPassword(user.SecurityAnswerHash, securityAnswer) == PasswordVerificationResult.Success;
+            return PasswordHasher.VerifyHashedPassword(user.SecurityAnswerHash, securityAnswer) == PasswordVerificationResult.Success || PasswordHasher.VerifyHashedPassword(user.SecurityAnswerHash, securityAnswer) == PasswordVerificationResult.SuccessRehashNeeded;
         }
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
         {

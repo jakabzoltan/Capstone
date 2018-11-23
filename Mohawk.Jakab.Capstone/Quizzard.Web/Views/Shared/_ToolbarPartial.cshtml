@@ -1,6 +1,6 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
-    <li>Create Quiz</li>
-    <li>My Quizzes</li>
-    <li>My Questions</li>
+    <li><a href="@Url.Action("Create","Quiz")">Create Quiz</a></li>
+    <li><a href="@Url.Action("MyQuizzes","Quiz")">My Quizzes</a></li>
+    //<li><a href="@Url.Action("MyQuestions","QuestionStore")">My Questions</a></li>
 }

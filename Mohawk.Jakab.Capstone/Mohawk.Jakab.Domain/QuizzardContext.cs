@@ -9,6 +9,7 @@ namespace Mohawk.Jakab.Quizzard.Domain
         public QuizzardContext()
             : base("QuizzardLocal", false)
         {
+            this.Configuration.LazyLoadingEnabled = true;
         }
 
         public DbSet<Question> Questions { get; set; }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using LinqKit;
 using Mohawk.Jakab.Quizzard.Domain;
@@ -20,12 +22,12 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
             _context = QuizzardContext.Create();
         }
 
-        public async Task<IEnumerable<QuizModel>> SearchForQuizzes(params string[] query)
+        public async Task<IEnumerable<QuizModel>> SearchForQuizzes(bool privateQuizzes = false, params string[] query)
         {
             return await _context.Quizzes
                 .AsExpandable()
                 .Where(x => (query.Any(q => x.Title.Contains(q)) || query.Any(q => x.Description.Contains(q))) &&
-                            x.ArchivedOn == null)
+                            x.ArchivedOn == null && x.Private == false || x.Private == privateQuizzes)
                 .Select(QuizModel.BuildModel)
                 .ToListAsync();
         }
@@ -33,7 +35,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
         public async Task<IEnumerable<QuizModel>> GetAllQuizzes(bool includePrivateQuizzes = false)
         {
             return await _context.Quizzes
-                .Where(x => x.Private == false && x.Private == includePrivateQuizzes && x.ArchivedOn == null && !x.DraftMode)
+                .Where(x => x.Private == false || x.Private == includePrivateQuizzes && x.ArchivedOn == null && !x.DraftMode)
                 .Select(QuizModel.BuildModel)
                 .ToListAsync();
         }
@@ -61,14 +63,29 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
             {
                 QuizId = id
             };
-            questionSet.QuizQuestions.ToList().AddRange(await _context.UserOwnedQuestions
-                .Where(x => x.Quizzes.Any(q => q.Id == id))
-                .Select(UserOwnedQuestionModel.BuildModel)
-                .ToListAsync());
-            questionSet.QuizQuestions.ToList().AddRange(await _context.Questions
-                .Where(x => x.QuizId == id)
-                .Select(QuestionModel.BuildModel)
-                .ToListAsync());
+            try
+            {
+                var questions = await _context.UserOwnedQuestions
+                    .Where(x => x.Quizzes.Any(q => q.Id == id))
+                    .Select(UserOwnedQuestionModel.BuildModel)
+                    .ToListAsync();
+
+                questionSet.QuizQuestions.ToList().AddRange(questions);
+
+                var otherQuestions = await _context.Questions
+                    .Where(x => x.QuizId == id)
+                    .Select(QuestionModel.BuildModel)
+                    .ToListAsync();
+
+                questionSet.QuizQuestions.ToList().AddRange(otherQuestions);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Trace.TraceError(e.Message);
+                Debug.Write(e.Message);
+            }
+
             return questionSet;
         }
 
@@ -86,7 +103,8 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                         Description =  model.Description,
                         SkillLevel =  model.SkillLevel,
                         Private = model.Private,
-                        DraftMode = true
+                        DraftMode = true,
+                        CreatedOn = DateTime.UtcNow
                     });
                     await _context.SaveChangesAsync();
                     transaction.Commit();
@@ -125,7 +143,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                 }
             }
 
-            return QuizModel.BuildModel.Invoke(quiz);
+            return model;
         }
 
         public async Task<bool> ArchiveQuiz(string quizId)
@@ -166,11 +184,24 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                         QuestionText = model.QuestionText
                     };
 
+                    var answers = model.Answers.Select(x => new QuestionAnswer()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        QuestionId = question.Id,
+                        AnswerText = x.AnswerText,
+                        Correctness = x.Correctness,
+                    });
 
                     quiz.Questions.Add(question);
+                    
+                    foreach (var questionAnswer in answers)
+                    {
+                        question.QuestionAnswers.Add(questionAnswer);
+                    }
+                    
                     await _context.SaveChangesAsync();
                     transaction.Commit();
-                    return QuestionModel.BuildModel.Invoke(question);
+                    return null;
                 }
                 catch (Exception e)
                 {
@@ -194,7 +225,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                     {
                         Id = Guid.NewGuid().ToString(),
                         AnswerText = model.AnswerText,
-                        IsCorrect = model.IsCorrect,
+                        Correctness = model.Correctness,
                         QuestionId = model.QuestionId
                     };
                     question.QuestionAnswers.Add(answer);
@@ -258,11 +289,11 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
             }
         }
 
-        public async Task<QuestionModel> EditQuestion(string questionId, QuestionModel model)
+        public async Task<bool> EditQuestion(string questionId, QuestionModel model)
         {
             var question = await _context.Questions.FirstOrDefaultAsync(x => x.Id == questionId);
 
-            if (question == null) return null;
+            if (question == null) return false;
 
             using (var transaction = _context.Database.BeginTransaction())
             {
@@ -271,14 +302,32 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                     question.QuestionText = model.QuestionText;
                     question.QuestionTypeId = model.QuestionTypeId;
 
+                    foreach (var answer in question.QuestionAnswers)
+                    {
+                        question.QuestionAnswers.Remove(answer);
+                    }
+
+                    var answers = model.Answers.Select(x => new QuestionAnswer()
+                    {
+                        QuestionId = question.Id,
+                        AnswerText = x.AnswerText,
+                        Correctness = x.Correctness,
+                    });
+
+                    foreach (var questionAnswer in answers)
+                    {
+                        question.QuestionAnswers.Add(questionAnswer);
+                    }
+
+
                     await _context.SaveChangesAsync();
                     transaction.Commit();
-                    return QuestionModel.BuildModel.Invoke(question);
+                    return true;
                 }
                 catch (Exception e)
                 {
                     transaction.Rollback();
-                    throw;
+                    return false;
                 }
 
             }
@@ -295,7 +344,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                 try
                 {
                     answer.AnswerText = model.AnswerText;
-                    answer.IsCorrect = model.IsCorrect;
+                    answer.Correctness = model.Correctness;
                     
                     await _context.SaveChangesAsync();
                     transaction.Commit();
@@ -315,6 +364,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
             var question = await _context.Questions.FirstOrDefaultAsync(x => x.Id == questionId);
             if (question == null) return false;
             _context.Questions.Remove(question);
+            await _context.SaveChangesAsync();
             return true;
         }
 
@@ -323,6 +373,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
             var question = await _context.QuestionAnswers.FirstOrDefaultAsync(x => x.Id == answerId);
             if (question == null) return false;
             _context.QuestionAnswers.Remove(question);
+            await _context.SaveChangesAsync();
             return true;
         }
 
@@ -338,6 +389,26 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
             quiz.DraftMode = !quiz.DraftMode;
             _context.SaveChanges();
             return !quiz.DraftMode;
+        }
+
+        public async Task<List<QuizModel>> GetMyQuizzes(string userId)
+        {
+            return await _context.Quizzes
+                .Where(x=>x.QuizzardUserId == userId)
+                .Select(QuizModel.BuildModel)
+                .ToListAsync();
+        }
+
+        public bool QuestionExists(string id)
+        {
+            return _context.Questions.FirstOrDefault(x => x.Id == id) != null;
+        }
+        public async Task<QuestionModel> GetQuestion(string id)
+        {
+            return await _context.Questions
+                .Where(x => x.Id == id)
+                .Select(QuestionModel.BuildModel)
+                .FirstOrDefaultAsync();
         }
     }
 }

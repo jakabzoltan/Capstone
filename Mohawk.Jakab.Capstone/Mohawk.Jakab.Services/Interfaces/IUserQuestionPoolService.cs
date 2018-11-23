@@ -12,6 +12,5 @@ namespace Mohawk.Jakab.Quizzard.Services.Interfaces
         Task<UserOwnedQuestionModel> EditUserOwnedQuestion(UserOwnedQuestionModel model);
         Task<UserOwnedQuestionModel> GetUserOwnedQuestion(string id);
         Task<bool> RemoveUserOwnedQuestion(string questionId);
-
     }
 }

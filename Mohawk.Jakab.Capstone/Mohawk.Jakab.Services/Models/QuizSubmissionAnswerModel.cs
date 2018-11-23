@@ -10,7 +10,11 @@ namespace Mohawk.Jakab.Quizzard.Services.Models
         public QuestionModel Question { get; set; }
         public string UserAnswer { get; set; }
 
-        public QuizSubmissionAnswerModel(string submissionId)
+        public QuizSubmissionAnswerModel()
+        {
+            
+        }
+        public QuizSubmissionAnswerModel(string submissionId) : this()
         {
             Id = Guid.NewGuid().ToString();
             SubmissionId = submissionId;

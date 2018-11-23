@@ -19,13 +19,15 @@ namespace Quizzard.Web.Controllers
         private UserService _userService;
         public AccountController()
         {
+            if (_userService == null) 
+                _userService = new UserService();
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, UserService userService)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            _userService = new UserService();
+            _userService = userService;
         }
 
         public ApplicationSignInManager SignInManager
@@ -75,7 +77,7 @@ namespace Quizzard.Web.Controllers
             var user = UserManager.FindByName(model.Username);
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(user.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -202,28 +204,35 @@ namespace Quizzard.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("Error");
                 }
-                RedirectToAction("VerifySecurityQuestion", new {userId = user.Id});
+                return RedirectToAction("VerifySecurityQuestion", new {model.Email});
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-        public ActionResult VerifySecurityQuestion(string userId)
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult> VerifySecurityQuestion(string email)
         {
+            var user = await UserManager.FindByEmailAsync(email);
+            var question = _userService.GetSecurityQuestion(user.Id);
+        
+
             return View(new SecurityQuestionViewModel()
             {
-               UserId = userId,
-               SecurityQuestion = _userService.GetSecurityQuestion(userId)
+               UserId = user.Id,
+               SecurityQuestion = question 
             });
         }
-
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifySecurityQuestion(SecurityQuestionViewModel model)
         {
             var user = await UserManager.FindByIdAsync(model.UserId);
@@ -272,7 +281,7 @@ namespace Quizzard.Web.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist

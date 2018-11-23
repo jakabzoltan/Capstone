@@ -12,7 +12,7 @@ namespace Quizzard.Web.Controllers
 
         public HomeController()
         {
-            
+
         }
         public HomeController(IQuizService quizService) : this()
         {
@@ -21,11 +21,9 @@ namespace Quizzard.Web.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var quizzes = (await _quizService.GetAllQuizzes(User.Identity.IsAuthenticated)).ToList();
             var model = new SearchResults()
             {
-                PrivateQuizzes = quizzes.Where(x => x.Private).ToList(), //will be empty if the user is not logged in
-                PublicQuizzes = quizzes.Where(x => !x.Private).ToList()
+                Quizzes = (await _quizService.GetAllQuizzes(User.Identity.IsAuthenticated)).ToList()
             };
             return View(model);
         }
@@ -33,11 +31,9 @@ namespace Quizzard.Web.Controllers
         public async Task<ActionResult> Search(SearchTerm term)
         {
             ViewData["SearchTerm"] = term.Term;
-            var quizzes = (await _quizService.SearchForQuizzes(term.Term)).ToList();
             var model = new SearchResults()
             {
-                PrivateQuizzes = quizzes.Where(x => x.Private).ToList(), //will be empty if the user is not logged in
-                PublicQuizzes = quizzes.Where(x => !x.Private).ToList()
+                Quizzes = (await _quizService.SearchForQuizzes(User.Identity.IsAuthenticated, term.Term)).ToList()
             };
             return View("Index", model);
         }

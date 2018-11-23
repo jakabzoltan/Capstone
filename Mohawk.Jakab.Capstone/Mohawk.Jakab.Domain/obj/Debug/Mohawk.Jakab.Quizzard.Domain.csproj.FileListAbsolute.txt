@@ -83,8 +83,6 @@ C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\bin\
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.csprojAssemblyReference.cache
-C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.Migrations.Initial.resources
-C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.csproj.GenerateResource.cache
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.csproj.CoreCompileInputs.cache
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.csproj.CopyComplete
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.dll
@@ -203,3 +201,7 @@ C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\bin\
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\bin\Debug\System.Reflection.Metadata.xml
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\bin\Debug\System.Text.Encodings.Web.xml
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.Migrations.Initial.resources
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.csproj.GenerateResource.cache
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\bin\Debug\Autofac.dll
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\bin\Debug\Autofac.xml

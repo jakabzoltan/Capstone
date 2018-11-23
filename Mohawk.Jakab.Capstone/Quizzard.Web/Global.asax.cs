@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Quizzard.Web.App_Data;
 
 namespace Quizzard.Web
 {

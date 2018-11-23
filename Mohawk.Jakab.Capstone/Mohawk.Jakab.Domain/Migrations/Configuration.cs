@@ -1,4 +1,6 @@
+using Microsoft.AspNet.Identity;
 using Mohawk.Jakab.Quizzard.Domain.Entities;
+using Constants = Mohawk.Jakab.Quizzard.Domain.Constants;
 
 namespace Mohawk.Jakab.Quizzard.Domain.Migrations
 {
@@ -32,6 +34,18 @@ namespace Mohawk.Jakab.Quizzard.Domain.Migrations
                 Id = 2,
                 ReactionTypeText = "Dislike"
             });
+
+            context.QuestionTypes.AddOrUpdate(new QuestionType()
+            {
+                Id = Constants.QuestionTypes.FreeText,
+                QuestionTypeText = Constants.QuestionTypes.FreeText,
+            });
+            context.QuestionTypes.AddOrUpdate(new QuestionType()
+            {
+                Id = Constants.QuestionTypes.MultipleChoice,
+                QuestionTypeText = Constants.QuestionTypes.MultipleChoice,
+            });
+
 
         }
 

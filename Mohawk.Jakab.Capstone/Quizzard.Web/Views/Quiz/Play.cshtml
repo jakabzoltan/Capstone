@@ -1,4 +1,5 @@
-﻿@using Quizzard.Web.Models
+﻿@using Quizzard.Web.Areas.Questions.Controllers
+@using Quizzard.Web.Models
 @model Quizzard.Web.Models.Play
 
 @{
@@ -8,16 +9,30 @@
 
 <div class="text-center">
     <h3>@Model.Quiz.Title</h3>
-    <p>@Model.Quiz.Description - @Model.Quiz.SkillLevel</p>
+    <small>@Model.Quiz.SkillLevel</small>
+    <p>@Model.Quiz.Description</p>
 </div>
-<hr />
 
-@using (Html.BeginForm("Play", "Quiz", FormMethod.Post, new { @class = "form-inline" })){
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <hr />
+    </div>
+</div>
+@using (Html.BeginForm("Play", "Quiz", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.Id)
-    foreach (var partial in Model.QuestionPartials)
+    foreach (var partialView in Model.QuestionPartials)
     {
-        partial.View.Render(ViewContext, Output);
+        @Html.HiddenFor(x=>x.QuizId)
+        using (Html.BeginCollectionItem("Answers")) {
+            Html.RenderPartial("_ViewWrapper", partialView);
+        }
     }
-
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 text-right">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
 
 }

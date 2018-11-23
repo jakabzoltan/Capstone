@@ -10,12 +10,16 @@ namespace Mohawk.Jakab.Quizzard.Services.Models
 {
     public class QuestionModel 
     {
+        public QuestionModel()
+        {
+            Answers = new List<AnswerModel>();
+        }
         public string Id { get; set; }
         public string QuizId { get; set; }
 
         public string QuestionTypeId { get; set; }
         public string QuestionText { get; set; }
-
+        public string Description { get; set; }
         public bool UserOwned { get; set; }
 
         public IEnumerable<AnswerModel> Answers { get; set; }

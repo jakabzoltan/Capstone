@@ -18,7 +18,13 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
 
         public string GetFullName(string id)
         {
-            return _context.Users.Where(x => x.Id == id).Select(x => $"{x.FirstName} {x.LastName}").FirstOrDefault();
+            var user = _context.Users.FirstOrDefault(x => x.Id == id);
+            if (user == null) return "";
+            if (user.FirstName != null)
+            {
+                return $"{user.FirstName} {user.LastName}";
+            }
+            return user.UserName;
         }
 
         public string GetSecurityQuestion(string id)

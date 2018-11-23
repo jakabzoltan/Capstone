@@ -1,17 +1,22 @@
-﻿ <div class="modal-content">
+﻿@model string
+<div class="modal-content">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Choose Question Store</h4>
     </div>
     <div class="modal-body">
         <div class="row">
-            <div id="user-store" class="col-xs-6 store-choice">
-                <h3>User Store</h3>
-                <p>Got a reusable question you created already? Want to add it to this quiz? No problem. Click here!</p>
+            <div id="user-store" class="col-xs-6">
+                <div class="store-choice">
+                    <h3>User Store</h3>
+                    <p>Got a reusable question you created already? Want to add it to this quiz? No problem. Click here!</p>
+                </div>
             </div>
-            <div id="new-question" class="col-xs-6 store-choice">
-                <h3>Brand New</h3>
-                <p>This will create a unique question to this quiz, and only this quiz! It cannot be reused.</p>
+            <div id="new-question" class="col-xs-6">
+                <div class="store-choice">
+                    <h3>Brand New</h3>
+                    <p>This will create a unique question to this quiz, and only this quiz! It cannot be reused.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -24,16 +29,16 @@
     $(document).ready(function() {
         $("#user-store").click(function() {
             $.ajax({
-                url: '@Url.Action("AttachQuestionResults", new{id=Model.Id})',
+                url: '@Url.Action("AttachQuestionResults", new{ quizId=Model})',
                 success: function(data) {
                     $("#add-question-modal-content").html(data);
                 }
             });
         });
 
-        $("#brand-new").click(function() {
+        $("#new-question").click(function() {
             $.ajax({
-                url: '@Url.Action("AddNewQuestion", new{id=Model.Id})',
+                url: '@Url.Action("QuestionTypeSelection", new{ quizId = Model})',
                 success: function(data) {
                     $("#add-question-modal-content").html(data);
                 }

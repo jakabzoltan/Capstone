@@ -5,7 +5,6 @@ namespace Quizzard.Web.Models.Home
 {
     public class SearchResults
     {
-        public List<QuizModel> PrivateQuizzes { get; set; }
-        public List<QuizModel> PublicQuizzes { get; set; }
+        public List<QuizModel> Quizzes { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Mohawk.Jakab.Quizzard.Services.Models;
 using Quizzard.Web.Models;
@@ -6,28 +7,24 @@ using Quizzard.Web.Models;
 namespace Quizzard.Web.Areas.Questions.Controllers
 {
     [RouteArea("Questions")]
+    [RoutePrefix("Questions")]
     public class MultipleChoiceController : QuestionBaseController
     {
         public MultipleChoiceController()
         {
             
         }
-        public override PartialViewResult QuestionPlayView(QuizSubmissionAnswerModel questionModel)
+        public override Task<PartialViewResult> QuestionPlayView(QuizSubmissionAnswerModel model)
         {
             throw new NotImplementedException();
         }
 
-        public override PartialViewResult QuestionDetails(string id)
+        public override Task<PartialViewResult> QuestionDetails(string id)
         {
             throw new NotImplementedException();
         }
 
-        public override PartialViewResult CreateQuestion(string quizId = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override PartialViewResult EditQuestion(string id)
+        public override Task<PartialViewResult> EditQuestion(string quizId, string id)
         {
             throw new NotImplementedException();
         }

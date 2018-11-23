@@ -4,66 +4,7 @@
 {
     foreach (var question in Model)
     {
-        <div class="row question-card">
-            <div class="col-md-8 col-md-offset-2">
-                <h4>@question.QuestionText</h4>
-                <p>@question.QuestionTypeId</p>
-                <div>
-                    @foreach (var answer in question.Answers)
-                    {
-                        var answerIndicator = "label-default";
-                        if (answer.IsCorrect)
-                        {
-                            answerIndicator = "label-success";
-                        }
-
-                        <label class="label @answerIndicator">@answer.AnswerText</label>
-                    }
-                </div>
-                <!-- Actions -->
-                <div class="pull-right">
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                            Actions <span class="glyphicon glyphicon-chevron-down"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#" data-toggle="modal" data-target="#confirm-delete-@question.Id">Remove</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div id="confirm-delete-@question.Id" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-
-
-                    @using (Ajax.BeginForm("RemoveQuestion", new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "questions" }))
-                    {
-                        @Html.HiddenFor(m => question.Id)
-                        @Html.HiddenFor(m => question.QuizId)
-                        @Html.HiddenFor(m => question.UserOwned)
-
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Confirm Remove Action</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>You are about to remove a question from your Quiz. Are you sure you want to do this?</p>
-                                <div class="col-md-12 text-center">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-danger" data-dismiss="modal">Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
+        {Html.RenderPartial("DraftQuestionView", question);}
     }
 }
 else

@@ -44,7 +44,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                         {
                             Id = Guid.NewGuid().ToString(),
                             AnswerText = x.AnswerText,
-                            IsCorrect = x.IsCorrect,
+                            Correctness = x.Correctness,
                             UserOwnedQuestionId = id
                         }))
                     });
@@ -81,7 +81,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                 var toUpdate = answers.FirstOrDefault(x => x.Id == answer.Id);
                 if (toUpdate == null) return;
                 toUpdate.AnswerText = answer.AnswerText;
-                toUpdate.IsCorrect = answer.IsCorrect;
+                toUpdate.Correctness = answer.Correctness;
             });
 
             await _context.SaveChangesAsync();

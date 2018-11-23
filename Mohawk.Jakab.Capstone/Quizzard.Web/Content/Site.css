@@ -18,6 +18,13 @@ body {
     min-height: 800px !important;
 }
 
+.header-margins {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+
+.pointer{ cursor: pointer !important;}
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -31,11 +38,18 @@ body {
 }
 
 .quiz-card {
-    height: 200px;
-    padding: 5px;
+    min-height: 200px;
+    height: auto;
     border: 1px solid;
     box-shadow: 1px 1px 1px gray;
-    margin-top: 25px;
+    margin-top: 15px;
+    font-size: 1.25em;
+}
+
+.quiz-card-content {
+    margin: 5px;
+    min-height: 200px;
+    height: auto;
 }
 
 .quiz-card-tag {
@@ -45,13 +59,25 @@ body {
 }
 
 .quiz-card-button {
-    position: absolute;
-    bottom: 0;
     text-align: center;
 }
 
 .quiz-card > p {
     overflow-x: auto;
+}
+
+.description-small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 100px;
+}
+
+.question-play {
+    font-size: 1.25em;
+}
+
+.question-component {
+    margin: 5px 0;
 }
 
 .width-100 {
@@ -93,8 +119,11 @@ body {
 }
 
 .question-card {
-    border: 1px solid;
-    box-shadow: 5px 0 -5px 0 gray;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    box-shadow: 0px 3px 3px 1px lightgray;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 
@@ -128,16 +157,26 @@ body {
 }
 
 .alert-bottom {
-    position: absolute;
+    position: fixed;
     width: 100%;
-    bottom: 0;
+    bottom: -20px;
     left: 0;
     right: 0;
 }
 
 .store-choice {
     border: 1px solid gray;
-    padding: 10px 10px;
+    border-radius: 4px;
+    padding: 5px 10px;
     cursor: pointer;
     margin: 4px;
+    box-shadow: 3px 3px lightgray;
+}
+
+.row {
+    margin-top:5px;
+}
+
+.question-card {
+    padding-left: 15px;
 }

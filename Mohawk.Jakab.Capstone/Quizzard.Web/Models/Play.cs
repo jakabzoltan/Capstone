@@ -6,6 +6,7 @@ namespace Quizzard.Web.Models
 {
     public class Play : QuizSubmissionModel
     {
-        public List<PartialViewResult> QuestionPartials { get; set; }
+        public List<ViewWrapper> QuestionPartials { get; set; } = new List<ViewWrapper>();
+        public List<PartialViewResult> PartialViews { get; set; } = new List<PartialViewResult>();
     }
 }

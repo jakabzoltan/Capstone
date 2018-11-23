@@ -1,0 +1,78 @@
+﻿@using Mohawk.Jakab.Quizzard.Services.Models
+@model Mohawk.Jakab.Quizzard.Services.Models.QuestionModel
+
+@{
+    var ajax = new AjaxOptions()
+    {
+        UpdateTargetId = "alert-box",
+        InsertionMode = InsertionMode.Replace
+    };
+}
+<div class="row">
+    <hr />
+    <div id="alert-box" class="col-md-12">
+
+    </div>
+
+    <div class="col-md-12">
+        @using (Ajax.BeginForm("SaveQuestion","FreeText", null, ajax, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.UserOwned)
+            @Html.HiddenFor(x => x.QuizId)
+            @Html.HiddenFor(x => x.QuestionTypeId)
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Free Text Question</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div>@Html.LabelFor(x => x.QuestionText, new { @class = "control-label" })</div>
+                    <div>@Html.TextBoxFor(x => x.QuestionText, new { @class = "form-control" })</div>
+                </div>
+            </div>
+            <br />
+            <div class="col-xs-12">
+                <h4 class="inline">Answers</h4>
+                <button class="btn btn-default pull-right inline" type="button" id="add-question-answer">Add Answer</button>
+            </div>
+            <div class="col-xs-9"><label class="control-label">Answer</label></div>
+            <div class="col-xs-2"><label class="control-label">Correctness</label></div>
+            <div class="col-xs-1 text-right"><label class="control-label">Actions</label></div>
+
+            <div id="answer-holder">
+                @if (Model.Answers.Any())
+                {
+                    foreach (var answer in Model.Answers)
+                    {
+                        Html.RenderPartial("Questions/FreeText/_AnswerPartial", answer);
+                    }
+                }
+                else
+                {
+                    Html.RenderPartial("Questions/FreeText/_AnswerPartial", new AnswerModel());
+                }
+            </div>
+
+
+            <hr />
+            <button type="submit" class="btn btn-success pull-right">Save Changes</button>
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#add-question-answer").click(function() {
+            $.ajax({
+                url: '@Url.Action("AddQuestionAnswer")',
+                success: function(data) {
+                    $("#answer-holder").append(data);
+                }
+            });
+        });
+    })
+
+</script>

@@ -8,23 +8,37 @@
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h3>Create a Quiz</h3>
+        <h2>Create a Quiz</h2>
+        <hr />
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h4>Don't worry, you can change these values later if you want.</h4>
+    </div>
+</div>
 @using (Html.BeginForm("SaveQuiz", "Quiz", FormMethod.Post, new { @class = "form-horizontal" }))
 {
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(x=>x.Id)
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div>@Html.LabelFor(x => x.Title, new { @class = "control-label" })</div>
             <div>@Html.TextBoxFor(x => x.Title, new { @class = "form-control" })</div>
+            <div><small>Name your quiz!</small></div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div>@Html.LabelFor(x => x.Description, new { @class = "control-label" })</div>
             <div>@Html.TextBoxFor(x => x.Title, new { @class = "form-control" })</div>
+            <div><small>Briefly describe your quiz. Is it a Math quiz with multiplication? A general study quiz?</small></div>
         </div>
     </div>
     <div class="row">
@@ -38,7 +52,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="inline">@Html.CheckBoxFor(m => m.Private, new { @class = "form-control form-control-checkbox" })</div>
             <div class="inline">@Html.LabelFor(m => m.Private, new { @class = "checkbox-text" })</div>
-            <div><small>Psst... Private means only logged in users may play your quiz!</small></div>
+            <div><small><b>Psst...</b> Private means only logged in users may play your quiz!</small></div>
         </div>
     </div>
 
