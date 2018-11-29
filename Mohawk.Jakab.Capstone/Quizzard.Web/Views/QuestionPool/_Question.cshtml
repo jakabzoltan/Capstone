@@ -1,0 +1,62 @@
+﻿@model Mohawk.Jakab.Quizzard.Services.Models.UserOwnedQuestionModel
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 question-card">
+        <div class="row">
+            <div class="col-xs-10">
+                <h4><small>@Model.QuestionTypeId</small><br />@Model.QuestionText</h4>
+                <div>
+                    @foreach (var answer in Model.Answers.OrderByDescending(x => x.Correctness))
+                    {
+                        var answerIndicator = "label-default";
+                        if (answer.Correctness > 50)
+                        {
+                            answerIndicator = "label-success";
+                        }
+                        else if (answer.Correctness == 50)
+                        {
+                            answerIndicator = "label-warning";
+                        }
+
+                        <label class="label @answerIndicator">(@answer.Correctness%) @answer.AnswerText</label>
+                    }
+                </div>
+            </div>
+            <!-- Actions -->
+            <div class="col-xs-2 text-right">
+                <a href="#" data-toggle="modal" data-target="#edit-question-modal" data-edit-question="@Url.Action("EditQuestion","QuestionPool", new{questionId = Model.Id})" class="btn btn-link">Edit</a>
+                <a href="#" data-toggle="modal" data-target="#confirm-delete-@Model.Id" class="btn btn-link">Remove</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="confirm-delete-@Model.Id" class="modal fade" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        @using (Ajax.BeginForm("RemoveQuestion", "QuestionPool", null, new AjaxOptions() { InsertionMode = InsertionMode.Replace, UpdateTargetId = "questions", HttpMethod = "POST" }))
+        {
+            <input type="hidden" id="@Html.NameFor(m=>Model.Id)" name="@Html.NameFor(m=>Model.Id)" value="@Model.Id" />
+            @Html.HiddenFor(m => Model.UserOwned)
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Confirm Remove Action</h4>
+                </div>
+                <div class="modal-body">
+                    <p>You are about to remove a question from your Quiz. Are you sure you want to do this?</p>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button id="submit-form-@Model.Id" type="submit" class="btn btn-danger">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

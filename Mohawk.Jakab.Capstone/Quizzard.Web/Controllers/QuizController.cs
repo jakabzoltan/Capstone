@@ -99,8 +99,8 @@ namespace Quizzard.Web.Controllers
             {
                 Id = quizSubmissionId,
                 QuizzardUserId = User.Identity.GetUserId(),
-                Quiz = quiz
             };
+
 
 
             var partialList = new List<ViewWrapper>();
@@ -113,11 +113,13 @@ namespace Quizzard.Web.Controllers
                     model.Answers.Add(emptySubmissionAnswer);
                     controller.ContextualizeController(nameof(controller.QuestionPlayView));
                     var result = await controller.QuestionPlayView(emptySubmissionAnswer);
-                    var viewLocations = result.ViewEngineCollection.FindPartialView(controller.ControllerContext, "QuestionPlayView");
+                    var viewLocations = result.ViewEngineCollection.FindPartialView(controller.ControllerContext, result.ViewName);
                     result.View = viewLocations.View;
                     model.QuestionPartials.Add(new ViewWrapper((RazorView) viewLocations.View, result.Model));
                 }
             }
+            model.Quiz = quiz;
+            model.QuizId = quiz.Id;
 
             return View(model);
         }
@@ -125,18 +127,28 @@ namespace Quizzard.Web.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Play(Play model) //todo change
+        public async Task<ActionResult> Play(Play model) //todo change
         {
-            
+            model.Id = Guid.NewGuid().ToString();
+            model.Answers.ForEach(x=>x.SubmissionId = model.Id);
 
-
-            return View(model);
+            if (User.Identity.IsAuthenticated)
+            {
+                model.QuizzardUserId = User.Identity.GetUserId();
+                await QuizPlayService.PlayQuiz(model.QuizzardUserId, model);
+            }
+            else
+            {
+                await QuizPlayService.PlayQuizAnonymously(model);
+            }
+            return RedirectToAction("QuizResult", new{id=model.Id});
         }
-
+        [AllowAnonymous]
         //id = quiz submission id
         public ActionResult QuizResult(string id)
         {
-            return View();
+            var model = QuizPlayService.GetQuizResults(id);
+            return View(model);
         }
 
         public async Task<ActionResult> MyQuizzes()
@@ -147,7 +159,10 @@ namespace Quizzard.Web.Controllers
 
         public ActionResult QuizStats(string id)
         {
-            return View();
+            var stats = QuizPlayService.GetQuizStatistics(id);
+
+
+            return View(stats);
         }
 
         public async Task<ActionResult> AddNewQuestion(string quizId, string questionType)
@@ -159,7 +174,7 @@ namespace Quizzard.Web.Controllers
                 controller.ContextualizeController(nameof(controller.EditQuestion));
                 var res = await controller.EditQuestion(quizId, Guid.NewGuid().ToString());
 
-                var viewLocations = res.ViewEngineCollection.FindPartialView(controller.ControllerContext, "EditQuestion");
+                var viewLocations = res.ViewEngineCollection.FindPartialView(controller.ControllerContext, res.ViewName);
                 res.View = viewLocations.View;
 
                 var mod = new ViewWrapper((RazorView) res.View, res.Model);
@@ -176,10 +191,11 @@ namespace Quizzard.Web.Controllers
 
         public async Task<ActionResult> AttachQuestionResults(string quizId)
         {
+            var quiz = await QuizService.GetQuiz(quizId);
             var set = new QuestionSet()
             {
                 QuizId = quizId,
-                QuizQuestions = await UserQuestionPool.GetUserOwnedQuestions(User.Identity.GetUserId())
+                QuizQuestions = (await UserQuestionPool.GetUserOwnedQuestions(User.Identity.GetUserId())).Where(x=> quiz.Questions.Any(z=>z.Id != x.Id)) //removes already added questions questions
             };
             return View("_AttachQuestionsStore", set);
         }
@@ -189,8 +205,9 @@ namespace Quizzard.Web.Controllers
             return Json(await QuizService.AttachUserQuestionToQuiz(quizId, questionId));
         }
 
-        public ActionResult ArchiveQuiz(string id)
+        public async Task<ActionResult> ArchiveQuiz(string id)
         {
+            await QuizService.ArchiveQuiz(id);
             return RedirectToAction("Index", "Home");
         }
         [HttpPost]
@@ -207,5 +224,25 @@ namespace Quizzard.Web.Controllers
             return RedirectToAction("RefreshQuizQuestions", new { id = model.QuizId });
         }
 
+        public async Task<ActionResult> EditQuestion(string questionId)
+        {
+            var question = await QuizService.GetQuestion(questionId);
+            if (question == null)
+            {
+                return PartialView("_InvalidAccess");
+            }
+            using (var scope = AutofacSetup.Container.BeginLifetimeScope())
+            {
+                var controller = scope.ResolveKeyed<QuestionBaseController>(question.QuestionTypeId);
+                controller.ContextualizeController(nameof(controller.EditQuestion));
+                var res = await controller.EditQuestion(question.QuizId, questionId);
+
+                var viewLocations = res.ViewEngineCollection.FindPartialView(controller.ControllerContext, res.ViewName);
+                res.View = viewLocations.View;
+
+                var mod = new ViewWrapper((RazorView)res.View, res.Model);
+                return View("_ViewWrapper", mod);
+            }
+        }
     }
 }

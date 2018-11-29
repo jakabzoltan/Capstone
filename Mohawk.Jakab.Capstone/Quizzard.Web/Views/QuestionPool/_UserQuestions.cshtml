@@ -1,0 +1,39 @@
+﻿@model List<Mohawk.Jakab.Quizzard.Services.Models.UserOwnedQuestionModel>
+
+@if (Model.Any())
+{
+    foreach (var question in Model)
+    {
+        Html.RenderPartial("_Question", question);
+    }
+
+
+
+    <script>
+        
+        $(document).ready(function() {
+
+            $("[data-edit-question]").click(function() {
+                $.ajax({
+                    url: $(this).data("edit-question"),
+                    success: function (data) {
+                        $("#edit-question-modal-content").html(data);
+                    }
+                });
+            });
+        })
+
+
+    </script>
+
+
+}
+else
+{
+    <div class="row s-padding">
+        <div class="col-md-8 col-md-offset-2 text-center">
+            <h3>No Questions in your question pool yet</h3>
+            <small>Click the 'New Question' button above to add one.</small>
+        </div>
+    </div>
+}

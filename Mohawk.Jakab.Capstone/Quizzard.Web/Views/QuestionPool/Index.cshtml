@@ -1,0 +1,78 @@
+﻿@model List<Mohawk.Jakab.Quizzard.Services.Models.UserOwnedQuestionModel>
+@{
+    ViewBag.Title = "Your Questions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="row">
+            <div class="col-xs-6">
+                <h3 class="header-margins">Your Questions</h3>
+            </div>
+            <div class="col-xs-6 text-right header-margins">
+                <button id="add-question" class="btn btn-info" data-toggle="modal" data-target="#add-question-modal">New Question</button>
+            </div>
+            <div class="col-xs-12">Note: Modifying these questions will modify the questions on your quizzes.</div>
+        </div>
+        <hr />
+    </div>
+</div>
+
+<div id="questions">
+    @{ Html.RenderPartial("_UserQuestions", Model); }
+</div>
+
+<div id="add-question-modal" class="modal fade" role="dialog" data-backdrop="false">
+    <div class="modal-dialog" id="add-question-modal-content">
+
+    </div>
+</div>
+
+<div id="edit-question-modal" class="modal fade" role="dialog" data-backdrop="false">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header"><h4>Edit Question<span class="close" data-dismiss="modal">&times;</span></h4></div>
+            <div id="edit-question-modal-content" class="modal-body">
+                    
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function successCallback() {
+            getQuestions();
+    }
+
+    function getQuestions() {
+        $.ajax({
+            url: '@Url.Action("GetUserQuestions")',
+            success: function(data) {
+                $("#questions").html(data);
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+        $("#add-question").click(function () {
+
+            $.ajax({
+                url: "@Url.Action("QuestionTypeSelection")",
+                success: function(data) {
+                    $("#add-question-modal-content").html(data);
+                }
+            })
+        })
+
+    });
+</script>
+
+

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Mohawk.Jakab.Quizzard.Domain.Entities
 {
@@ -20,5 +22,6 @@ namespace Mohawk.Jakab.Quizzard.Domain.Entities
         public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
         public virtual ICollection<UserOwnedQuestion> UserAttachedQuestions { get; set; } = new List<UserOwnedQuestion>();
         public virtual ICollection<QuizReaction> QuizReactions { get; set; } = new List<QuizReaction>();
+
     }
 }

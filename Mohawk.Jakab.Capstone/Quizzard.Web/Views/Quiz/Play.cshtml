@@ -21,14 +21,20 @@
 @using (Html.BeginForm("Play", "Quiz", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(x => x.Id)
+    <input type="hidden" name="@Html.NameFor(x=>x.Id)" id="@Html.IdFor(x=>x.Id)" value="@Model.Id"/>
+    @Html.HiddenFor(x => x.QuizId)
     foreach (var partialView in Model.QuestionPartials)
     {
-        @Html.HiddenFor(x=>x.QuizId)
         using (Html.BeginCollectionItem("Answers")) {
             Html.RenderPartial("_ViewWrapper", partialView);
         }
     }
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 text-center mt-10">
+            <small>End of Quiz</small>
+            <hr/>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-8 col-md-offset-2 text-right">
             <button type="submit" class="btn btn-success">Submit</button>

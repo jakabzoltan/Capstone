@@ -355,6 +355,22 @@
     <Compile Include="Migrations\201811061716097_Initial.Designer.cs">
       <DependentUpon>201811061716097_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811241802087_archivedOn.cs" />
+    <Compile Include="Migrations\201811241802087_archivedOn.Designer.cs">
+      <DependentUpon>201811241802087_archivedOn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811241859577_virtualMemberUpdate.cs" />
+    <Compile Include="Migrations\201811241859577_virtualMemberUpdate.Designer.cs">
+      <DependentUpon>201811241859577_virtualMemberUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811242126382_archivedUserQuestion.cs" />
+    <Compile Include="Migrations\201811242126382_archivedUserQuestion.Designer.cs">
+      <DependentUpon>201811242126382_archivedUserQuestion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811290838480_createdON.cs" />
+    <Compile Include="Migrations\201811290838480_createdON.Designer.cs">
+      <DependentUpon>201811290838480_createdON.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="QuizzardContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -366,6 +382,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201811061716097_Initial.resx">
       <DependentUpon>201811061716097_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811241802087_archivedOn.resx">
+      <DependentUpon>201811241802087_archivedOn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811241859577_virtualMemberUpdate.resx">
+      <DependentUpon>201811241859577_virtualMemberUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811242126382_archivedUserQuestion.resx">
+      <DependentUpon>201811242126382_archivedUserQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811290838480_createdON.resx">
+      <DependentUpon>201811290838480_createdON.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -108,17 +108,30 @@
 </div>
 
 
-<div id="add-question-modal" class="modal fade" role="dialog">
+<div id="add-question-modal" class="modal fade" role="dialog" data-backdrop="false">
     <div class="modal-dialog" id="add-question-modal-content">
 
     </div>
 </div>
 
-
+<div id="edit-question-modal" class="modal fade" role="dialog" data-backdrop="false">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Edit Question<span class="close" data-dismiss="modal">&times;</span></h4>
+            </div>
+            <div id="edit-question-modal-content" class="modal-body"></div>
+        </div>
+    </div>
+</div>
 <script>
+    function successCallback() {
+        refreshQuestions();
+    }
+
     function refreshQuestions() {
         $.ajax({
-            url: '@Url.Action("RefreshQuizQuestions", new { quizId = Model.Id})',
+            url: '@Url.Action("RefreshQuizQuestions", new { id = Model.Id})',
             success: function(data) {
                 $("#questions").html(data);
             }
@@ -145,7 +158,5 @@
         })
 
     });
-
-
-
 </script>
+<div class="alert-bottom-padding"></div>

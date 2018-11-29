@@ -1,12 +1,18 @@
 ﻿@using HtmlHelpers.BeginCollectionItem
 @using Quizzard.Web.Models
 @model Mohawk.Jakab.Quizzard.Services.Models.QuizSubmissionAnswerModel
+
+@Html.HiddenFor(x => x.Id)
 @Html.HiddenFor(x=>x.QuestionId)
 @Html.HiddenFor(x=>x.SubmissionId)
-@Html.HiddenFor(x => x.Id)
+@Html.HiddenFor(x=>x.UserOwned)
+@Html.HiddenFor(x=>x.Question.Id)
+@Html.HiddenFor(x=>x.Question.UserOwned)
+@Html.HiddenFor(x=>x.Question.QuestionTypeId)
+
 <div class="row question-play">
     <div class="col-md-8 col-md-offset-2">
-        <div class="question-component">@Model.Question.QuestionText</div>
+        <div class="question-component">@Model.GetQuestion().QuestionText</div>
         <div class="question-component">@Html.TextBoxFor(x => x.UserAnswer, new { @class = "form-control" })</div>
     </div>
 </div>

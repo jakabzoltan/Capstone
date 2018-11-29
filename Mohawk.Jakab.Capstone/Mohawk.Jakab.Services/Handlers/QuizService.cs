@@ -27,16 +27,19 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
             return await _context.Quizzes
                 .AsExpandable()
                 .Where(x => (query.Any(q => x.Title.Contains(q)) || query.Any(q => x.Description.Contains(q))) &&
-                            x.ArchivedOn == null && x.Private == false || x.Private == privateQuizzes)
-                .Select(QuizModel.BuildModel)
+                            x.ArchivedOn == null && x.Private == false || x.Private == privateQuizzes && x.DraftMode == false)
+                .Select(QuizModel.BuildModel(false))
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<QuizModel>> GetAllQuizzes(bool includePrivateQuizzes = false)
         {
-            return await _context.Quizzes
-                .Where(x => x.Private == false || x.Private == includePrivateQuizzes && x.ArchivedOn == null && !x.DraftMode)
-                .Select(QuizModel.BuildModel)
+            var expr = QuizModel.BuildModel(false);
+
+
+            return await _context.Quizzes.AsExpandable()
+                .Where(x => (x.Private == false || x.Private == includePrivateQuizzes) && x.ArchivedOn == null && x.DraftMode == false)
+                .Select(x => expr.Invoke(x))
                 .ToListAsync();
         }
 
@@ -45,7 +48,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
             return await _context.Quizzes
                 .AsExpandable()
                 .Where(x => x.QuizzardUserId == userId)
-                .Select(QuizModel.BuildModel)
+                .Select(QuizModel.BuildModel(false))
                 .ToListAsync();
         }
 
@@ -53,31 +56,22 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
         {
             return await _context.Quizzes
                 .AsExpandable()
-                .Where(x => x.Id == id).Select(QuizModel.BuildModel)
+                .Where(x => x.Id == id).Select(QuizModel.BuildModel(false))
                 .FirstOrDefaultAsync();
         }
 
         public async Task<QuestionSet> GetQuizQuestions(string id)
         {
-            var questionSet = new QuestionSet()
-            {
-                QuizId = id
-            };
+
             try
             {
-                var questions = await _context.UserOwnedQuestions
-                    .Where(x => x.Quizzes.Any(q => q.Id == id))
-                    .Select(UserOwnedQuestionModel.BuildModel)
-                    .ToListAsync();
-
-                questionSet.QuizQuestions.ToList().AddRange(questions);
-
-                var otherQuestions = await _context.Questions
-                    .Where(x => x.QuizId == id)
-                    .Select(QuestionModel.BuildModel)
-                    .ToListAsync();
-
-                questionSet.QuizQuestions.ToList().AddRange(otherQuestions);
+                var quiz = await GetQuiz(id);
+                var questionSet = new QuestionSet()
+                {
+                    QuizId = id,
+                    QuizQuestions = quiz.Questions
+                };
+                return questionSet;
             }
             catch (Exception e)
             {
@@ -86,7 +80,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                 Debug.Write(e.Message);
             }
 
-            return questionSet;
+            return null;
         }
 
         public async Task<QuizModel> CreateQuiz(QuizModel model)
@@ -100,8 +94,8 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                     {
                         Id = newId,
                         Title = model.Title,
-                        Description =  model.Description,
-                        SkillLevel =  model.SkillLevel,
+                        Description = model.Description,
+                        SkillLevel = model.SkillLevel,
                         Private = model.Private,
                         DraftMode = true,
                         CreatedOn = DateTime.UtcNow
@@ -168,11 +162,11 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
             }
         }
 
-        public async Task<QuestionModel> AddQuestion(string quizId, QuestionModel model)
+        public async Task<bool> AddQuestion(string quizId, QuestionModel model)
         {
             var quiz = await _context.Quizzes.FirstOrDefaultAsync(x => x.Id == quizId);
 
-            if (quiz == null) return null;
+            if (quiz == null) return false;
             using (var transaction = _context.Database.BeginTransaction())
             {
                 try
@@ -181,7 +175,8 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                     {
                         Id = Guid.NewGuid().ToString(),
                         QuestionTypeId = model.QuestionTypeId,
-                        QuestionText = model.QuestionText
+                        QuestionText = model.QuestionText,
+                        CreatedOn = DateTime.UtcNow
                     };
 
                     var answers = model.Answers.Select(x => new QuestionAnswer()
@@ -193,54 +188,24 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                     });
 
                     quiz.Questions.Add(question);
-                    
+
                     foreach (var questionAnswer in answers)
                     {
                         question.QuestionAnswers.Add(questionAnswer);
                     }
-                    
+
                     await _context.SaveChangesAsync();
                     transaction.Commit();
-                    return null;
+                    return true;
                 }
                 catch (Exception e)
                 {
                     transaction.Rollback();
-                    throw;
+                    return false;
                 }
             }
         }
 
-        public async Task<AnswerModel> AddQuestionAnswer(string questionId, AnswerModel model)
-        {
-            var question = await _context.Questions.FirstOrDefaultAsync(x => x.Id == questionId);
-
-            if (question == null) return null;
-
-            using (var transaction = _context.Database.BeginTransaction())
-            {
-                try
-                {
-                    var answer = new QuestionAnswer()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        AnswerText = model.AnswerText,
-                        Correctness = model.Correctness,
-                        QuestionId = model.QuestionId
-                    };
-                    question.QuestionAnswers.Add(answer);
-                    await _context.SaveChangesAsync();
-                    transaction.Commit();
-                    return AnswerModel.BuildModel.Invoke(answer);
-                }
-                catch (Exception e)
-                {
-                    transaction.Rollback();
-                    throw;
-                }
-
-            }
-        }
 
         public async Task<bool> AttachUserQuestionToQuiz(string quizId, string userOwnedQuestionId)
         {
@@ -250,8 +215,26 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                 {
                     var quiz = await _context.Quizzes.FirstOrDefaultAsync(x => x.Id == quizId);
                     if (quiz == null) return false;
-                    quiz.UserAttachedQuestions.Add(
-                        await _context.UserOwnedQuestions.FirstOrDefaultAsync(q => q.Id == userOwnedQuestionId));
+                    var question =
+                        await _context.UserOwnedQuestions.FirstOrDefaultAsync(q => q.Id == userOwnedQuestionId);
+                    //copy the question
+                    var questionId = Guid.NewGuid().ToString();
+                    quiz.Questions.Add(new Question()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        QuestionText = question.QuestionText,
+                        QuestionType = question.QuestionType,
+                        QuestionTypeId = question.QuestionTypeId,
+                        CreatedOn = DateTime.UtcNow,
+                        QuizId = quizId,
+                        QuestionAnswers = question.UserOwnedAnswers.Select(x => new QuestionAnswer()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            QuestionId = questionId,
+                            Correctness = x.Correctness,
+                            AnswerText = x.AnswerText
+                        }).ToList()
+                    });
 
                     await _context.SaveChangesAsync();
                     transaction.Commit();
@@ -301,14 +284,11 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                 {
                     question.QuestionText = model.QuestionText;
                     question.QuestionTypeId = model.QuestionTypeId;
-
-                    foreach (var answer in question.QuestionAnswers)
-                    {
-                        question.QuestionAnswers.Remove(answer);
-                    }
+                    question.QuestionAnswers.Clear();
 
                     var answers = model.Answers.Select(x => new QuestionAnswer()
                     {
+                        Id = Guid.NewGuid().ToString(),
                         QuestionId = question.Id,
                         AnswerText = x.AnswerText,
                         Correctness = x.Correctness,
@@ -345,10 +325,10 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                 {
                     answer.AnswerText = model.AnswerText;
                     answer.Correctness = model.Correctness;
-                    
+
                     await _context.SaveChangesAsync();
                     transaction.Commit();
-                    return AnswerModel.BuildModel.Invoke(answer);
+                    return AnswerModel.BuildModel().Invoke(answer);
                 }
                 catch (Exception e)
                 {
@@ -361,10 +341,19 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
 
         public async Task<bool> RemoveQuestion(string questionId)
         {
-            var question = await _context.Questions.FirstOrDefaultAsync(x => x.Id == questionId);
-            if (question == null) return false;
-            _context.Questions.Remove(question);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var question = await _context.Questions.FirstOrDefaultAsync(x => x.Id == questionId);
+                if (question == null) return false;
+                question.ArchivedOn = DateTime.Now;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return false;
+            }
+
             return true;
         }
 
@@ -379,7 +368,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
 
         public async Task<List<QuestionTypeModel>> GetQuestionTypes()
         {
-            return await _context.QuestionTypes.Select(QuestionTypeModel.Build).ToListAsync();
+            return await _context.QuestionTypes.AsExpandable().Select(QuestionTypeModel.Build).ToListAsync();
         }
 
         public bool ToggleDraftMode(string quizId)
@@ -393,9 +382,11 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
 
         public async Task<List<QuizModel>> GetMyQuizzes(string userId)
         {
-            return await _context.Quizzes
-                .Where(x=>x.QuizzardUserId == userId)
-                .Select(QuizModel.BuildModel)
+            var exp = QuizModel.BuildModel(false);
+
+            return await _context.Quizzes.AsExpandable()
+                .Where(x => x.QuizzardUserId == userId)
+                .Select(x => exp.Invoke(x))
                 .ToListAsync();
         }
 
@@ -405,9 +396,12 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
         }
         public async Task<QuestionModel> GetQuestion(string id)
         {
-            return await _context.Questions
+
+            var exp = QuestionModel.BuildModel();
+
+            return await _context.Questions.AsExpandable()
                 .Where(x => x.Id == id)
-                .Select(QuestionModel.BuildModel)
+                .Select(x => exp.Invoke(x))
                 .FirstOrDefaultAsync();
         }
     }

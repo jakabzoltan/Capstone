@@ -19,12 +19,21 @@ body {
 }
 
 .header-margins {
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
 
-.pointer{ cursor: pointer !important;}
+
+.pointer{ 
+    cursor: pointer !important;
+    text-decoration: none !important;
+    text-underline: none !important;
+}
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -42,8 +51,8 @@ body {
     height: auto;
     border: 1px solid;
     box-shadow: 1px 1px 1px gray;
-    margin-top: 15px;
     font-size: 1.25em;
+    margin: 7.5px 7.5px;
 }
 
 .quiz-card-content {
@@ -93,15 +102,45 @@ body {
     margin-bottom: 15px;
 }
 
+.mt-10 {
+    margin-top: 10px;
+}
+
+.scrollbox {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 400px;
+    min-height: 400px;
+    background-color: #eee;
+    box-shadow: 0px 3px 3px 1px lightgray;
+}
+.scrollbox-item {
+    padding: 10px !important;
+}
+
+
+.scrollbox-header {
+    padding: 10px !important;
+    border-bottom: 2px solid darkgray;
+}
+.scrollbox-item + .scrollbox-item {
+    border-top: 1px solid gray;
+}
+.dropdown-menu > a {
+    line-height: 1.5em;
+}
+
 .no-horizontal-padding {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
 
 .s-padding {
     padding: 5%;  
 }
-
+.text-lg {
+    font-size: 1.25em;
+}
 .row {
     padding-left: 15px;
     padding-right: 15px;
@@ -119,8 +158,7 @@ body {
 }
 
 .question-card {
-    border-bottom: 1px solid;
-    border-top: 1px solid;
+    border: 1px solid #aaa;
     box-shadow: 0px 3px 3px 1px lightgray;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -162,6 +200,11 @@ body {
     bottom: -20px;
     left: 0;
     right: 0;
+    z-index: 1000;
+}
+
+.alert-bottom-padding {
+    height:50px;
 }
 
 .store-choice {
@@ -179,4 +222,9 @@ body {
 
 .question-card {
     padding-left: 15px;
+}
+
+.mlr-5 {
+    margin-left:5px;
+    margin-right:5px;
 }

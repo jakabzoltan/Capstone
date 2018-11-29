@@ -1,0 +1,86 @@
+﻿@model Mohawk.Jakab.Quizzard.Services.Models.QuizResultsModel
+
+@{
+    ViewBag.Title = "Your Results!";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="text-center">
+    <h3>Quiz Results</h3>
+    <h4>@Model.Quiz.Title</h4>
+    <h4>You Scored: @Math.Round(Model.QuizResult(), 1)%</h4>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <small>
+            Because you are logged in, you contributed to the overall statistics of this quiz!
+            <br />
+            Log out if you wish to play quizzes anonymously.
+        </small>
+    }
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        @foreach (var answerModel in Model.SubmittedAnswers)
+        {
+            var question = @Model.Quiz.Questions.FirstOrDefault(x => x.Id == answerModel.QuestionId);
+            <div class="row mt-10 question-card">
+                <div class="col-xs-10">
+                    @if (question != null)
+                    {
+                        <h4>@question.QuestionText</h4>
+                    }
+                    else
+                    {
+                        <h4>Could not retrieve question data</h4>
+                    }
+                    <div>
+                        <b>You answered:</b> @answerModel.UserAnswer
+                    </div>
+
+                </div>
+                <div class="col-xs-2 text-right">
+                    @{
+                        var correctness = answerModel.GetQuestion().Answers.Where(x => x.AnswerText.Equals(answerModel.UserAnswer, StringComparison.OrdinalIgnoreCase)).Select(x => x.Correctness).FirstOrDefault();
+                        if (correctness > 50)
+                        {
+                            <h3>
+                                <span class="glyphicon glyphicon-ok" style="color: green;"></span>
+                            </h3>
+                        }
+                        else if (correctness == 50)
+                        {
+                            <h3>
+                                <span class="glyphicon glyphicon-ok" style="color: yellow;"></span>
+                            </h3>
+                        }
+                        else
+                        {
+                            <h3>
+                                <span class="glyphicon glyphicon-remove" style="color: red;"></span>
+                            </h3>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="row ">
+    <div class="col-md-8 col-md-offset-2 text-center mt-10">
+        <small>End of Quiz</small>
+        <hr/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 text-right">
+        <a href="@Url.Action("Index","Home")" class="btn btn-success">Take Another Quiz</a>
+    </div>
+</div>

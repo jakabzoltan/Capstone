@@ -1,0 +1,194 @@
+﻿@model Mohawk.Jakab.Quizzard.Services.Models.QuizStatisticsModel
+
+@{
+    ViewBag.Title = "Quiz Statistics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    var questionCount = 1;
+
+
+}
+<style>
+    .min-50 {
+        display: inline-block;
+        min-width: 50px !important;
+        text-align: center;
+    }
+</style>
+<div class="text-center">
+    <h3>Quiz Statistics</h3>
+    <h4>@Model.Quiz.Title</h4>
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <hr />
+    </div>
+</div>
+@if (Model.QuizResults.Any())
+{
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            @foreach (var question in Model.Quiz.Questions)
+            {
+                var quizResult = Model.QuizResults.SelectMany(x => x.SubmittedAnswers).GroupBy(x => x.Question.Id).FirstOrDefault(x => x.Key == question.Id);
+                
+
+                <div class="row mt-10">
+                    <div>
+                        <h3>
+                            @if (question != null)
+                            {
+                                <span>@questionCount. @question.QuestionText</span>
+                            }
+                            else
+                            {
+                                <span>@questionCount. Could not retrieve question data</span>
+                            }
+                        </h3>
+                        @if (quizResult != null)
+                        {
+                            <p>@quizResult.Count() Answer Submissions </p>
+                        }
+                    </div>
+                    @{
+                        questionCount++;
+                    }
+                    @if (quizResult != null)
+                    {
+
+                        double correct = 0;
+                        double semiCorrect = 0;
+                        double wrong = 0;
+
+                        correct = quizResult.Count(x => x.Question.Answers.Any(y => y.Correctness > 50 && x.UserAnswer.Equals(y.AnswerText, StringComparison.OrdinalIgnoreCase)));
+                        semiCorrect = quizResult.Count(x => x.Question.Answers.Any(y => y.Correctness == 50 && x.UserAnswer.Equals(y.AnswerText, StringComparison.OrdinalIgnoreCase)));
+                        wrong = quizResult.Count(x => x.Question.Answers.Any(y => y.Correctness < 50 && x.UserAnswer.Equals(y.AnswerText, StringComparison.OrdinalIgnoreCase)) || !x.Question.Answers.Any(z => z.AnswerText.Equals(x.UserAnswer, StringComparison.OrdinalIgnoreCase)));
+
+                        double total = correct + semiCorrect + wrong;
+
+                        var correctPercentage = (correct / total) * 100;
+                        var semiPercent = (semiCorrect / total) * 100;
+                        var wrongPercent = (wrong / total) * 100;
+
+                        <div>
+                            <div class="progress">
+                                @if (correctPercentage != 0d)
+                                {
+                                    <div class="progress-bar progress-bar-success" role="progressbar" style="width: @correctPercentage%">
+                                        (@correctPercentage%) Correct
+                                    </div>
+                                }
+
+                                @if (semiPercent != 0d)
+                                {
+                                    <div class="progress-bar progress-bar-warning" role="progressbar" style="width: @semiPercent%">
+                                        (@semiPercent%) Partially Correct
+                                    </div>
+                                }
+
+                                @if (wrongPercent != 0d)
+                                {
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" style="width: @wrongPercent%">
+                                        (@wrongPercent%) Wrong
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info" role="progressbar" style="width: 100%;">No Data... Yet</div>
+                                </div>
+                                <p>This question may have been added recently, so wait until more users answer it.</p>
+                            </div>
+                        </div>
+                    }
+
+
+                    <h5>Answer Key <br /><small>Answers are case insensitive.</small></h5>
+
+                    <div class="text-lg">
+                        @foreach (var answer in question.Answers)
+                        {
+                            var label = "label-danger";
+                            if (answer.Correctness > 50)
+                            {
+                                label = "label-success";
+                            }
+                            else if (answer.Correctness == 50)
+                            {
+                                label = "label-warning";
+                            }
+
+                            <div>
+                                <div class="label @label min-50">@answer.Correctness%</div>
+                                @answer.AnswerText
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+
+    <div>
+        <div class="col-md-8 col-md-offset-2 text-center">
+            <small>End of Quiz</small>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row mt-10">
+        <div class="col-md-8 col-md-offset-2"><h3>Submission History</h3><small>(Most recent records only)</small></div>
+        <div class="col-md-8 col-md-offset-2 scrollbox text-lg">
+            <div class="row">
+                <div class="col-xs-12 scrollbox-header">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <h4>User</h4>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                            <h4>Overall Score</h4>
+                        </div>
+                        <div class="col-xs-4 text-right">
+                            <h4>Date</h4>
+                        </div>
+                    </div>
+                </div>
+
+
+                @foreach (var submission in Model.QuizResults.OrderByDescending(x => x.SubmittedOn).Take(100))
+                {
+                    var user = submission.User.UserName;
+                    if (submission.User.FirstName != null && submission.User.LastName != null)
+                    {
+                        user = submission.User.FirstName + " " + submission.User.LastName;
+                    }
+
+
+                    <div class="col-xs-12 scrollbox-item">
+                        <div class="row">
+                            <div class="col-xs-4">@user</div>
+                            <div class="col-xs-4 text-center">@Math.Round(submission.QuizResult(), 1)%</div>
+                            <div class="col-xs-4 text-right">@submission.SubmittedOn.ToString()</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="s-padding text-center">
+        <h3>No statistics to show yet!</h3>
+        <h4>Wait until someone submits your quiz, and then check this page.</h4>
+        <small><i>...Perhaps do a quiz in the mean time?</i></small>
+    </div>
+}

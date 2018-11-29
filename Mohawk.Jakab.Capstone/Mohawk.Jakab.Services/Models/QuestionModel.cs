@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using LinqKit;
@@ -18,21 +19,28 @@ namespace Mohawk.Jakab.Quizzard.Services.Models
         public string QuizId { get; set; }
 
         public string QuestionTypeId { get; set; }
+        [MaxLength(1000)]
+        [Display(Name="Question Text")]
         public string QuestionText { get; set; }
-        public string Description { get; set; }
         public bool UserOwned { get; set; }
-
+        public DateTime CreatedOn { get; set; }
+        public DateTime? ArchivedOn { get; set; }
         public IEnumerable<AnswerModel> Answers { get; set; }
 
-        public static Expression<Func<Question, QuestionModel>> BuildModel => x => new QuestionModel()
+        public static Expression<Func<Question, QuestionModel>> BuildModel()
         {
-            Id = x.Id,
-            QuizId = x.QuizId,
-            QuestionText = x.QuestionText,
-            QuestionTypeId = x.QuestionTypeId,
-            UserOwned = false,
-            Answers = x.QuestionAnswers.AsQueryable().Select(AnswerModel.BuildModel)
-        };
-
+            var answerExpression = AnswerModel.BuildModel();
+            return x => new QuestionModel()
+            {
+                Id = x.Id,
+                QuizId = x.QuizId,
+                QuestionText = x.QuestionText,
+                CreatedOn = x.CreatedOn,
+                QuestionTypeId = x.QuestionTypeId,
+                UserOwned = false,
+                ArchivedOn = x.ArchivedOn,
+                Answers = x.QuestionAnswers.AsQueryable().Select(z => answerExpression.Invoke(z))
+            };
+        }
     }
 }

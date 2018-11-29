@@ -10,7 +10,7 @@
                 <h4><small>@question.QuestionTypeId</small><br/>@question.QuestionText </h4>
 
                 <div>
-                    @foreach (var answer in question.Answers)
+                    @foreach (var answer in question.Answers.OrderByDescending(x=>x.Correctness))
                     {
                         var answerIndicator = "label-default";
                         if (answer.Correctness > 50)

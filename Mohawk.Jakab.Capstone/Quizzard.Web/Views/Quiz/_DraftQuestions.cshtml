@@ -4,8 +4,24 @@
 {
     foreach (var question in Model)
     {
-        {Html.RenderPartial("DraftQuestionView", question);}
+        { Html.RenderPartial("DraftQuestionView", question); }
     }
+
+
+    <script>
+        $(document).ready(function() {
+            $("[data-edit-question]").click(function () {
+                $.ajax({
+                    url: $(this).data("edit-question"),
+                    success: function (data) {
+                        $("#edit-question-modal-content").html(data);
+                    }
+                });
+            });
+        })
+    </script>
+
+
 }
 else
 {

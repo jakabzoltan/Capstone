@@ -15,8 +15,16 @@ namespace Quizzard.Web.Areas.Questions
         {
             Initialize(new RequestContext(new HttpContextWrapper(System.Web.HttpContext.Current), new RouteData()
             {
-                Route = new DynamicDataRoute("{controller}/{action}/{id}")
+                Route = new DynamicDataRoute(Name+"/{action}/{id}")
             }));
+
+            ControllerContext = new ControllerContext(new HttpContextWrapper(System.Web.HttpContext.Current), new RouteData()
+            {
+                Values =
+                {
+                    {"controller", Name},
+                }
+            }, this);
         }
 
         public string Name => GetType().Name.Replace("Controller", "");
@@ -25,17 +33,11 @@ namespace Quizzard.Web.Areas.Questions
         public abstract Task<PartialViewResult> QuestionPlayView(QuizSubmissionAnswerModel questionModel);
 
         [HttpGet]
-        public abstract Task<PartialViewResult> QuestionDetails(string id);
-
-        [HttpGet]
         public abstract Task<PartialViewResult> EditQuestion(string quizId, string questionId);
 
-        public ActionResult ExecuteActionByRoute(RouteData route)
-        {
-            ControllerContext = new ControllerContext(new HttpContextWrapper(System.Web.HttpContext.Current), route, this);
-            return RedirectToRoute(route.Values);
-        }
-  
+        public abstract Task<PartialViewResult> EditUserOwnedQuestion(string questionId);
+
+
         public void ContextualizeController(string actionName)
         {
             ControllerContext = new ControllerContext(new HttpContextWrapper(System.Web.HttpContext.Current), new RouteData()

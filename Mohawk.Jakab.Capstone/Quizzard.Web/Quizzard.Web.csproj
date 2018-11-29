@@ -199,6 +199,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\QuestionPoolController.cs" />
     <Compile Include="Controllers\Questions\FreeTextController.cs" />
     <Compile Include="Controllers\Questions\MultipleChoiceController.cs" />
     <Compile Include="Controllers\Questions\QuestionBaseController.cs" />
@@ -302,6 +303,14 @@
     <Content Include="Views\Shared\_ViewWrapper.cshtml" />
     <Content Include="Views\Quiz\DraftQuestionView.cshtml" />
     <Content Include="Views\Quiz\MyQuizzes.cshtml" />
+    <Content Include="Views\Quiz\QuizResult.cshtml" />
+    <Content Include="Views\Quiz\QuizStats.cshtml" />
+    <Content Include="Views\QuestionPool\Index.cshtml" />
+    <Content Include="Views\QuestionPool\_QuestionTypeSelectionModal.cshtml" />
+    <Content Include="Views\FreeText\EditUserQuestion.cshtml" />
+    <Content Include="Views\QuestionPool\_UserQuestions.cshtml" />
+    <Content Include="Views\QuestionPool\_Question.cshtml" />
+    <Content Include="Views\Shared\_InvalidAccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\MultipleChoice\" />

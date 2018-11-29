@@ -19,5 +19,6 @@ namespace Quizzard.Web.App_Data
             var userService = new UserService();
             return userService.UserIsVerified(principal.Identity.GetUserId());
         }
+
     }
 }

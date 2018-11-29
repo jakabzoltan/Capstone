@@ -9,22 +9,11 @@ namespace Quizzard.Web.Models
     {
         public RazorView View { get; set; }
         public object Model { get; set; }
-        public Action Execute { get; set; }
-
         public ViewWrapper(RazorView view, object model)
         {
             View = view;
             Model = model;
         }
 
-        public ViewWrapper(Action view)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ViewWrapper()
-        {
-            
-        }
     }
 }

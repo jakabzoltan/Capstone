@@ -5,11 +5,11 @@
     var ajax = new AjaxOptions()
     {
         UpdateTargetId = "alert-box",
-        InsertionMode = InsertionMode.Replace
+        InsertionMode = InsertionMode.Replace,
+        OnSuccess = "window.successCallback()"
     };
 }
 <div class="row">
-    <hr />
     <div id="alert-box" class="col-md-12">
 
     </div>
@@ -29,7 +29,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div>@Html.LabelFor(x => x.QuestionText, new { @class = "control-label" })</div>
+                    <div>@Html.LabelFor(x => x.QuestionText)</div>
                     <div>@Html.TextBoxFor(x => x.QuestionText, new { @class = "form-control" })</div>
                 </div>
             </div>
@@ -58,16 +58,18 @@
 
 
             <hr />
-            <button type="submit" class="btn btn-success pull-right">Save Changes</button>
+            <button id="submit" type="submit" class="btn btn-success pull-right">Save Changes</button>
         }
     </div>
 </div>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
+        
+
         $("#add-question-answer").click(function() {
             $.ajax({
-                url: '@Url.Action("AddQuestionAnswer")',
+                url: '@Url.Action("AddQuestionAnswer","FreeText")',
                 success: function(data) {
                     $("#answer-holder").append(data);
                 }

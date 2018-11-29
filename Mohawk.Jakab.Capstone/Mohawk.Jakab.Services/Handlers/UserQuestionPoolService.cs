@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using LinqKit;
 using Mohawk.Jakab.Quizzard.Domain;
 using Mohawk.Jakab.Quizzard.Domain.Entities;
 using Mohawk.Jakab.Quizzard.Services.Interfaces;
@@ -21,19 +22,21 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
 
         public async Task<IEnumerable<UserOwnedQuestionModel>> GetUserOwnedQuestions(string userId)
         {
-            return await _context.UserOwnedQuestions
-                .Where(x => x.QuizzardUserId == userId)
-                .Select(UserOwnedQuestionModel.BuildModel)
+            var exp = UserOwnedQuestionModel.BuildModel();
+
+            return await _context.UserOwnedQuestions.AsExpandable()
+                .Where(x => x.QuizzardUserId == userId && x.ArchivedOn == null)
+                .Select(x=> exp.Invoke(x))
                 .ToListAsync();
         }
 
-        public async Task<UserOwnedQuestionModel> AddUserOwnedQuestion(UserOwnedQuestionModel model)
+        public async Task<bool> AddUserOwnedQuestion(UserOwnedQuestionModel model)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
                 try
                 {
-                    var id = Guid.NewGuid().ToString();
+                    var id = model.Id ?? Guid.NewGuid().ToString();
                     _context.UserOwnedQuestions.Add(new UserOwnedQuestion()
                     {
                         Id = id,
@@ -42,7 +45,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                         QuestionTypeId = model.QuestionTypeId,
                         UserOwnedAnswers = new List<UserOwnedAnswer>(model.Answers.Select(x => new UserOwnedAnswer()
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = x.Id ?? Guid.NewGuid().ToString(),
                             AnswerText = x.AnswerText,
                             Correctness = x.Correctness,
                             UserOwnedQuestionId = id
@@ -50,58 +53,67 @@ namespace Mohawk.Jakab.Quizzard.Services.Handlers
                     });
                     await _context.SaveChangesAsync();
                     transaction.Commit();
-                    return await _context.UserOwnedQuestions.Where(x => x.Id == id)
-                        .Select(UserOwnedQuestionModel.BuildModel)
-                        .FirstOrDefaultAsync();
+                    return true;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                     transaction.Rollback();
-                    return null;
+                    return false;
                 }
             }
         }
 
-        public async Task<UserOwnedQuestionModel> EditUserOwnedQuestion(UserOwnedQuestionModel model)
+        public async Task<bool> EditUserOwnedQuestion(UserOwnedQuestionModel model)
         {
-            var toChange = await _context.UserOwnedQuestions.Where(x => x.Id == model.Id)
-                .Select(UserOwnedQuestionModel.BuildModel)
-                .FirstOrDefaultAsync();
-
-            if (toChange != null)
+            var exp = UserOwnedQuestionModel.BuildModel();
+            try
             {
-                toChange.QuestionText = model.QuestionText;
+                var toChange = await _context.UserOwnedQuestions.Where(x => x.Id == model.Id)
+                    .FirstOrDefaultAsync();
+
+                if (toChange != null)
+                {
+                    toChange.QuestionText = model.QuestionText;
+                    toChange.UserOwnedAnswers.Clear();
+                    foreach (var answer in model.Answers)
+                    {
+                        toChange.UserOwnedAnswers.Add(new UserOwnedAnswer()
+                        {
+                            AnswerText = answer.AnswerText,
+                            Correctness = answer.Correctness,
+                            Id = answer.Id ?? Guid.NewGuid().ToString(),
+                            UserOwnedQuestionId = model.Id
+                        });
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+ 
             }
-            await _context.SaveChangesAsync();
-
-            var answers = _context.UserOwnedAnswers.Where(x => x.UserOwnedQuestionId == model.Id);
-            await model.Answers.AsQueryable().ForEachAsync(answer =>
+            catch (Exception e)
             {
-                var toUpdate = answers.FirstOrDefault(x => x.Id == answer.Id);
-                if (toUpdate == null) return;
-                toUpdate.AnswerText = answer.AnswerText;
-                toUpdate.Correctness = answer.Correctness;
-            });
+                Console.WriteLine(e);
+                return false;
+            }
+            
 
-            await _context.SaveChangesAsync();
-
-            return await _context.UserOwnedQuestions.Where(x => x.Id == model.Id)
-                .Select(UserOwnedQuestionModel.BuildModel)
-                .FirstOrDefaultAsync();
+            return true;
         }
 
         public async Task<UserOwnedQuestionModel> GetUserOwnedQuestion(string id)
         {
-           return await _context.UserOwnedQuestions.Where(x => x.Id == id)
-                .Select(UserOwnedQuestionModel.BuildModel)
+            var exp = UserOwnedQuestionModel.BuildModel();
+            return await _context.UserOwnedQuestions.AsExpandable().Where(x => x.Id == id)
+                .Select(z=> exp.Invoke(z))
                 .FirstOrDefaultAsync();
         }
 
         public async Task<bool> RemoveUserOwnedQuestion(string id)
         {
             var question = await _context.UserOwnedQuestions.Where(x => x.Id == id).FirstOrDefaultAsync();
-            if (question != null) _context.UserOwnedQuestions.Remove(question);
+            if (question != null) question.ArchivedOn = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
             return true;
         }
     }

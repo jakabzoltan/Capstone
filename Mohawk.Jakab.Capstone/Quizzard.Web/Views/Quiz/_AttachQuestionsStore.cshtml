@@ -1,34 +1,52 @@
 ﻿@model Mohawk.Jakab.Quizzard.Services.Models.QuestionSet
-
-@foreach (var question in Model.QuizQuestions)
-{
-    <div class="row question-card">
-        <div class="col-md-8 col-md-offset-2">
-            <h4>@question.QuestionText</h4>
-            <p>@question.QuestionTypeId</p>
-            <div class="pull-right">
-                @using (Ajax.BeginForm("AttachQuestion",new {quizId = Model.QuizId, questionId = question.Id}, new AjaxOptions()))
-                {
-                    <button type="submit" class="btn-add btn btn-success">Add</button>
-                }
-            </div>
-            
-            <div>
-                @foreach (var answer in question.Answers)
-                {
-                    var answerIndicator = "label-default";
-                    if (answer.IsCorrect)
-                    {
-                        answerIndicator = "label-success";
-                    }
-                    <label class="label @answerIndicator">@answer.AnswerText</label>
-                }
-            </div>
-        </div>
-    </div>
+@{
+    Layout = null;
 }
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Add Question</h3>
+    </div>
+    <div class="modal-body" style="min-height: 250px;">
+        @foreach (var question in Model.QuizQuestions)
+        {
+            <div class="row question-card mlr-5" id="@question.Id">
+                <div class="col-md-12">
+                    <h4>@question.QuestionText</h4>
+                    <p>@question.QuestionTypeId</p>
+                    <div class="pull-right">
+                        @using (Ajax.BeginForm("AttachQuestion", "Quiz", new { quizId = Model.QuizId, questionId = question.Id }, new AjaxOptions(){OnSuccess = "window.successCallback()",OnComplete = "closeModal()"}))
+                        {
+                            <button id="button-add-@question.Id" type="submit" class="btn btn-success">Add</button>
+                        }
+                    </div>
+
+                    <div>
+                        @foreach (var answer in question.Answers)
+                        {
+                            var answerIndicator = "label-default";
+                            if (answer.Correctness > 50)
+                            {
+                                answerIndicator = "label-success";
+                            }
+                            else if (answer.Correctness == 50)
+                            {
+                                answerIndicator = "label-warn";
+                            }
+                            <label class="label @answerIndicator">@answer.AnswerText</label>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </div>
+    <div class="modal-footer">
+        <button id="close" class="btn btn-info" data-dismiss="modal">Close</button>
+    </div>
+</div>
 <script>
-    $(".btn-add").click(function() {
-        this.remove();
-    })
+    function closeModal() {
+        $("#close").click();
+    }
 </script>

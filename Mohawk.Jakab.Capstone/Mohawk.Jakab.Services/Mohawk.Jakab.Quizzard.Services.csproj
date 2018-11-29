@@ -167,6 +167,7 @@
     <Compile Include="Models\QuestionTypeModel.cs" />
     <Compile Include="Models\QuizModel.cs" />
     <Compile Include="Models\QuizResultsModel.cs" />
+    <Compile Include="Models\QuizStatisticsModel.cs" />
     <Compile Include="Models\QuizSubmissionAnswerModel.cs" />
     <Compile Include="Models\QuizSubmissionModel.cs" />
     <Compile Include="Models\UserOwnedQuestionModel.cs" />

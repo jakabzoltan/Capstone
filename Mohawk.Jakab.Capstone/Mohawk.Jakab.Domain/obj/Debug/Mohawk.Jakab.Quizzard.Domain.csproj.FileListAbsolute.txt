@@ -205,3 +205,7 @@ C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.csproj.GenerateResource.cache
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\bin\Debug\Autofac.dll
 C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\bin\Debug\Autofac.xml
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.Migrations.archivedOn.resources
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.Migrations.virtualMemberUpdate.resources
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.Migrations.archivedUserQuestion.resources
+C:\Users\Zolta\Documents\Capstone\Mohawk.Jakab.Capstone\Mohawk.Jakab.Domain\obj\Debug\Mohawk.Jakab.Quizzard.Domain.Migrations.createdON.resources

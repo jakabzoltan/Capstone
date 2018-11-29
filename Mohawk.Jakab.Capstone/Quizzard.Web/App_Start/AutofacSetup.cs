@@ -7,6 +7,7 @@ using Mohawk.Jakab.Quizzard.Services.Handlers;
 using Mohawk.Jakab.Quizzard.Services.Interfaces;
 using Quizzard.Web.Areas.Questions;
 using Quizzard.Web.Areas.Questions.Controllers;
+using Quizzard.Web.Controllers.Questions;
 
 namespace Quizzard.Web
 {

@@ -1,6 +1,8 @@
 ﻿@using Quizzard.Web.App_Data
 @model Quizzard.Web.Models.Home.SearchResults
 @{
+    /**/
+
     ViewBag.Title = "Home";
     var totalResults = Model.Quizzes.Count;
 }
@@ -9,13 +11,17 @@
 {
     <div class="row">
         <div class="col-md-12 text-center">
-            <h2>Hello @User.GetName()</h2>
+            <h2>Hello @User.GetName()!</h2>
         </div>
 
 
         @if (!User.IsVerified())
         {
-            <div class="col-md-12 text-right"><a href="@Url.Action("Create","Quiz")" class="btn btn-primary">Create a Quiz!</a></div>
+            <div class="col-md-12 text-center">
+                <a href="@Url.Action("Create", "Quiz")" class="btn btn-primary">Create a Quiz!</a>
+                <a href="@Url.Action("MyQuizzes", "Quiz")" class="btn btn-default">View My Quizzes</a>
+                <a href="@Url.Action("Index", "QuestionPool")" class="btn btn-default">My Questions</a>
+            </div>
 
             <div data-dismiss="alert" class="alert-bottom-right alert alert-warning alert-dismissible" aria-label="close">
 
@@ -30,27 +36,27 @@
         }
     </div>
 }
-    <div class="row">
-        <hr />
-        @if (Model.Quizzes.Count <= 0)
-        {
+<div class="row">
+    <hr />
+    @if (Model.Quizzes.Count <= 0)
+    {
 
-            <div class="col-xs-12 no-horizontal-padding text-right">
-                <small>Found @totalResults Quizzes matching search criteria.</small>
+        <div class="col-xs-12 no-horizontal-padding text-right">
+            <small>Found @totalResults Quizzes matching search criteria.</small>
+        </div>
+        <div class="col-xs-12 text-center">
+            <div class="s-padding">
+                <h2>No quizzes found!</h2>
+                <p>Perhaps try searching with different keywords?</p>
             </div>
-            <div class="col-xs-12 text-center">
-                <div class="s-padding">
-                    <h2>No quizzes found!</h2>
-                    <p>Perhaps try searching with different keywords?</p>
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="col-xs-12">
-                <small></small>Found @totalResults Quizzes matching search criteria.
-            </div>
-            <div class="row">
+        </div>
+    }
+    else
+    {
+        <div class="col-xs-12 text-right">
+            <small>Found @totalResults Quizzes matching search criteria.</small>
+        </div>
+        <div class="row">
             @if (Model.Quizzes.Count > 0)
             {
                 foreach (var quiz in Model.Quizzes)
@@ -58,94 +64,97 @@
                     if (quiz.Private && !User.Identity.IsAuthenticated)
                     {
 
-                        <div class="col-md-4 col-xs-6 col-lg-3 quiz-card">
-                            <div class="quiz-card-content">
-                                <div class="col-xs-12">
-                                    <h3>
-                                        @quiz.Title
-                                        @if (quiz.Private)
-                                        {
-                                            <span class="glyphicon glyphicon-eye-close"></span>
-                                        }
-                                    </h3>
-                                    <small>@quiz.CreatedOn.ToString()</small>
-                                    @if (string.IsNullOrWhiteSpace(quiz.Description))
-                                    {
-                                    <p class="description-small">
-                                        <small><i>No description available</i></small>
+            <div class="col-md-4 col-xs-6 col-lg-3">
+                <div class="quiz-card">
+                    <div class="quiz-card-content">
+                        <div class="col-xs-12">
+                            <h3>
+                                @quiz.Title
+                                @if (quiz.Private)
+                                {
+                                    <span class="glyphicon glyphicon-eye-close"></span>
+                                }
+                            </h3>
+                            <small>@quiz.CreatedOn.ToString()</small>
+                            @if (string.IsNullOrWhiteSpace(quiz.Description))
+                            {
+                                <p class="description-small">
+                                    <small><i>No description available</i></small>
+                                </p>
+                            }
+                            else
+                            {
+                                <p class="description-small">
+                                    <small>@quiz.Description</small>
+                                </p>
+                            }
 
-                                    </p>
-
-                                    }
-                                    else
-                                    {
-                                    <p class="description-small">
-                                        <small>@quiz.Description</small>
-                                    </p>
-                                    }
-
-                                </div>
-
-                                <div class="col-xs-12">
-                                    <p>
-                                        <small>Question Count: @quiz.Questions.Count()</small>
-                                    </p>
-                                </div>
-                                <div class="col-xs-12">
-                                    <a href="@Url.Action("Play", "Quiz", new {Area = "", id = quiz.Id.ToString()})" class="btn btn-success quiz-card-button width-100">Play <span class="glyphicon glyphicon-play"></span></a>
-                                </div>
-                            </div>
                         </div>
+
+                        <div class="col-xs-12">
+                            <p>
+                                <small>Question Count: @quiz.Questions.Count()</small>
+                            </p>
+                        </div>
+                        <div class="col-xs-12">
+                            <a href="@Url.Action("Play", "Quiz", new {Area = "", id = quiz.Id.ToString()})" class="btn btn-success quiz-card-button width-100">Play <span class="glyphicon glyphicon-play"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
                     }
                     else
                     {
-                        <div class="col-md-4 col-xs-6 col-lg-3 quiz-card">
-                            <div class="row quiz-card-content">
-                                <div class="col-xs-12">
-                                    <h3>
-                                        @quiz.Title
-                                        @if (quiz.Private)
+                        <div class="col-md-4 col-xs-6 col-lg-3">
+                            <div class="quiz-card">
+                                <div class="row quiz-card-content">
+                                    <div class="col-xs-12">
+                                        <h3>
+                                            @quiz.Title
+                                            @if (quiz.Private)
+                                            {
+                                                <span class="glyphicon glyphicon-eye-close"></span>
+                                            }
+                                        </h3>
+                                        <p>
+                                            <small>@quiz.CreatedOn.ToString()</small>
+                                        </p>
+
+                                        @if (string.IsNullOrWhiteSpace(quiz.Description))
                                         {
-                                            <span class="glyphicon glyphicon-eye-close"></span>
+                                            <p class="description-small">
+                                                <small><i>No description available</i></small>
+
+                                            </p>
+
                                         }
-                                    </h3>
-                                    <p>
-                                        <small>@quiz.CreatedOn.ToString()</small>
-                                    </p>
+                                        else
+                                        {
+                                            <p class="description-small">
+                                                <small>@quiz.Description</small>
+                                            </p>
+                                        }
 
-                                    @if (string.IsNullOrWhiteSpace(quiz.Description))
-                                    {
-                                        <p class="description-small">
-                                            <small><i>No description available</i></small>
+                                    </div>
 
+                                    <div class="col-xs-12">
+                                        <p>
+                                            <small>Question Count: @quiz.Questions.Count()</small>
                                         </p>
-
-                                    }
-                                    else
-                                    {
-                                        <p class="description-small">
-                                            <small>@quiz.Description</small>
+                                        <p>
+                                            <a href="@Url.Action("Play", "Quiz", new {Area = "", id = quiz.Id.ToString()})" class="btn btn-success quiz-card-button width-100">Play <span class="glyphicon glyphicon-play"></span></a>
                                         </p>
-                                    }
-
-                                </div>
-                                
-                                <div class="col-xs-12">
-                                    <p>
-                                        <small>Question Count: @quiz.Questions.Count()</small>
-                                    </p>
-                                    <p>
-                                        <a href="@Url.Action("Play", "Quiz", new {Area = "", id = quiz.Id.ToString()})" class="btn btn-success quiz-card-button width-100">Play <span class="glyphicon glyphicon-play"></span></a>
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
+                            
                         </div>
                     }
                 }
-                }
-            </div>
-        }
-    </div>
+            }
+        </div>
+    }
+</div>
 
 
 

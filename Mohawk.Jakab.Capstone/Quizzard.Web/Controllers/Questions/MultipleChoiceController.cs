@@ -19,12 +19,12 @@ namespace Quizzard.Web.Areas.Questions.Controllers
             throw new NotImplementedException();
         }
 
-        public override Task<PartialViewResult> QuestionDetails(string id)
+        public override Task<PartialViewResult> EditQuestion(string quizId, string id)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<PartialViewResult> EditQuestion(string quizId, string id)
+        public override Task<PartialViewResult> EditUserOwnedQuestion(string questionId)
         {
             throw new NotImplementedException();
         }

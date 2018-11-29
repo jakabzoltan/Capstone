@@ -2,6 +2,7 @@
 
 @using (Html.BeginCollectionItem("Answers"))
 {
+    @Html.HiddenFor(x=>x.Id)
     <div class="row" class="">
         <div class="col-xs-9">
 
@@ -20,7 +21,10 @@
         <div class="col-xs-1 text-center">
             <a href="#" id="delete-question-answer" class="btn btn-default delete-question-answer" tabindex="-1"><span class="glyphicon glyphicon-trash"></span></a>
         </div>
-
+        <div class="col-xs-12">
+            @Html.ValidationMessageFor(m=>m.AnswerText)
+            @Html.ValidationMessageFor(m=>m.Correctness)
+        </div>
     </div>
     <script>
         $(".delete-question-answer").click(function() {

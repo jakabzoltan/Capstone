@@ -15,6 +15,24 @@
         </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
+                <div>@Html.LabelFor(m => m.FirstName, new { @class = "control-label" })</div>
+
+                <div>
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div>@Html.LabelFor(m => m.LastName, new { @class = "control-label" })</div>
+
+                <div>
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
                 <div>@Html.LabelFor(m => m.Username, new { @class = "control-label" })</div>
 
                 <div>

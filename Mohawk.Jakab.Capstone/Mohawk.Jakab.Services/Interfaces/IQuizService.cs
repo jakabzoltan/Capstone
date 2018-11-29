@@ -16,8 +16,7 @@ namespace Mohawk.Jakab.Quizzard.Services.Interfaces
         Task<QuizModel> CreateQuiz(QuizModel model);
         Task<QuizModel> EditQuiz(string quizId, QuizModel model);
         Task<bool> ArchiveQuiz(string quizId);
-        Task<QuestionModel> AddQuestion(string quizId, QuestionModel model);
-        Task<AnswerModel> AddQuestionAnswer(string questionId, AnswerModel model);
+        Task<bool> AddQuestion(string quizId, QuestionModel model);
         Task<bool> AttachUserQuestionToQuiz(string quizId, string userOwnedQuestionId);
         Task<bool> DetachUserQuestionFromQuiz(string quizId, string userOwnedQuestionId);
         Task<bool> EditQuestion(string questionId, QuestionModel model);

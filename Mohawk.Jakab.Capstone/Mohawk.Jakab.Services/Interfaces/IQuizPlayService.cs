@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Mohawk.Jakab.Quizzard.Domain.Entities;
 using Mohawk.Jakab.Quizzard.Services.Models;
@@ -9,8 +10,8 @@ namespace Mohawk.Jakab.Quizzard.Services.Interfaces
     {
         Task PlayQuiz(string userId, QuizSubmissionModel model);
         Task PlayQuizAnonymously(QuizSubmissionModel model);
-        Task<QuizResultsModel> GetQuizStatistics(Guid quizId);
+        QuizStatisticsModel GetQuizStatistics(string quizId);
 
-        Task<QuizResultsModel> GetQuizResults(Guid submissionId);
+        QuizResultsModel GetQuizResults(string submissionId);
     }
 }

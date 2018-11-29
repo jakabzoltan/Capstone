@@ -153,7 +153,7 @@ namespace Quizzard.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new QuizzardUser { UserName = model.Username, Email = model.Email, SecurityQuestion = model.SecurityQuestion};
+                var user = new QuizzardUser {FirstName = model.FirstName, LastName = model.LastName, UserName = model.Username, Email = model.Email, SecurityQuestion = model.SecurityQuestion};
                 var result = await UserManager.CreateAsync(user, model.Password, model.SecurityAnswer);
                 if (result.Succeeded)
                 {
